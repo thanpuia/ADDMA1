@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    Bootstrap CSS
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ 
+</head>
+<body>
+				
+
+   <form action="#" th:action="@{/report/saveReportIncident}" 
+  					th:object="${reportIncidentEntity}" method="POST">
+		
+	<input type="hidden" th:field="*{serialNumber}">
+	<input type="text" th:field="*{disasterType}" placeholder="altContactName">
+	<input type="text" th:field="*{locality}" placeholder="altContactNo">
+	<input type="text" th:field="*{landmarks}" placeholder="createdAt">
+	<input type="text" th:field="*{disastersDetails}" placeholder="district">
+	<input type="text" th:field="*{details}" placeholder="details">
+	<input type="text" th:field="*{disasterTypeId}" placeholder="disasterTypeId">
+	<input type="text" th:field="*{district}" placeholder="district">
+	<input type="text" th:field="*{inLocation}" placeholder="inLocation">
+	<input type="text" th:field="*{lat}" placeholder="lat">
+	<input type="text" th:field="*{lng}" placeholder="lng">
+	<input type="text" th:field="*{location}" placeholder="location">
+	<input type="text" th:field="*{username}" placeholder="username">
+	<input type="text" th:field="*{phone}" placeholder="phone">
+	<input type="text" th:field="*{reportOn}" placeholder="reportOn">
+	<input type="text" th:field="*{status}" placeholder="status">
+	<input type="text" th:field="*{userId}" placeholder="userId">
+	<input type="text" th:field="*{zonalOfficerContact}" placeholder="zonalOfficerContact">
+	<input type="text" th:field="*{zonalOfficerId}" placeholder="zonalOfficerId">
+	<input type="text" th:field="*{zonalOfficerName}" placeholder="zonalOfficerName">
+	<input type="text" th:field="*{zoneId}" placeholder="zoneId">
+	<input type="text" th:field="*{zoneName}" placeholder="zoneName">
+	
+
+	<button type="submit">Save</button>
+					
+	</form>   
+
+
+<!-- 	<form action="#" th:action="@{/report/saveReportIncident}"
+					th:object="${theReportIncidentEntity}" method="POST">
+					
+	<input type="hidden" th:field="*{serialNo}">
+	<input type="text" th:field="*{altContactName}" placeholder="altContactName">
+	<input type="text" th:field="*{altContactNo}" placeholder="altContactNo">
+	<input type="text" th:field="*{createdAt}" placeholder="createdAt">
+	<input type="text" th:field="*{district}" placeholder="district">
+	<input type="text" th:field="*{email}" placeholder="email">
+	<input type="text" th:field="*{emergencyContactName}" placeholder="emergencyContactName">
+	<input type="text" th:field="*{emergencyContactNo}" placeholder="emergencyContactNo">
+	<input type="text" th:field="*{lastLogin}" placeholder="lastLogin">
+	<input type="text" th:field="*{lat}" placeholder="lat">
+	<input type="text" th:field="*{lng}" placeholder="lng">
+	<input type="text" th:field="*{locality}" placeholder="locality">
+	<input type="text" th:field="*{username}" placeholder="username">
+	<input type="text" th:field="*{phoneNo}" placeholder="phoneNo">
+	<input type="text" th:field="*{userRole}" placeholder="userRole">
+	<input type="text" th:field="*{updateAt}" placeholder="updateAt">
+	<input type="text" th:field="*{volunteer}" placeholder="volunteer">
+ 
+					<button type="submit">Save</button>
+					
+	</form> -->
+	
+</body>
+</html>
