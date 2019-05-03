@@ -43,8 +43,8 @@
 	<tbody>
 	
 		<tr th:each="tempUser : ${users}">
-			<td scope="row" th:id="${tempUser.SerialNo}"  />
-		
+			<!-- <td scope="row" th:id="${tempUser.SerialNo}"  /> -->
+			<td th:text="${tempUser.serialNumber}"  />
 			<td th:text="${tempUser.altContactName}"  />
 			<td th:text="${tempUser.altContactNo}"  />
 			<td th:text="${tempUser.createdAt}"  />

@@ -47,7 +47,7 @@ public class ReportIncidentEntity {
 	
 	@Column(name="lat")
 	String lat;
-	
+																					
 	@Column(name="lng")
 	String lng;
 	

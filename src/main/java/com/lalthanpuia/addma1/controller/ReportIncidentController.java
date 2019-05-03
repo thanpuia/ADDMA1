@@ -8,26 +8,30 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lalthanpuia.addma1.dao.ReportIncidentRepository;
+import com.lalthanpuia.addma1.dao.UserRepository;
 import com.lalthanpuia.addma1.entity.ReportIncidentEntity;
+import com.lalthanpuia.addma1.entity.UserEntity;
 						
 @Controller				
 @RequestMapping("/report")
 public class ReportIncidentController {
 
 	private ReportIncidentRepository reportIncidentRepository;
+	private UserRepository userRepository;
 
-	public ReportIncidentController(ReportIncidentRepository theReportIncidentRepository) {
+	public ReportIncidentController(ReportIncidentRepository theReportIncidentRepository, UserRepository theUserRepository) {
 		
-		reportIncidentRepository = theReportIncidentRepository;
+		this.reportIncidentRepository = theReportIncidentRepository;
+		this.userRepository = theUserRepository;
 	}
 	
 	//REPORT INCIDENT HANDLER 1
 	@GetMapping("/reportIncident")
 	public String reportincidented(Model theModel) {
 		
+		UserEntity theUserEntity					 = new UserEntity();
 		ReportIncidentEntity theReportIncidentEntity = new ReportIncidentEntity();
 		theModel.addAttribute("reportIncidentEntity", theReportIncidentEntity);
 		return "/reportIncident";

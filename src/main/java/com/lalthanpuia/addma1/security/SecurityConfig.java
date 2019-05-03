@@ -32,6 +32,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -52,32 +53,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 			.authorizeRequests()
-			.antMatchers("/adminShowAll").hasRole("ADMIN")
+//			.antMatchers("/adminShowAll").hasRole("ADMIN")
 			.antMatchers("/request/requestRelief").hasRole("ADMIN")
 
 				.antMatchers("/phoneAuth","/userDetails").permitAll()
 				.and()
-				.formLogin().permitAll();	
-//		.authorizeRequests()
-//        .anyRequest()
-//        .authenticated()
-//        .and()
-//    .authorizeRequests()
-//        .antMatchers("/index")
-//        .permitAll()
-//        .and()
-//    .formLogin();
+				.formLogin().loginPage("/login")
+				.permitAll().defaultSuccessUrl("/index")
+				.and()
+				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/chhuak")).logoutSuccessUrl("/login")	;
+		
 	}
-//				
-//	@Autowired
-//	public void configureGlobal (AuthenticationManagerBuilder auth) throws Exception {
-//		
-//		auth
-//			.inMemoryAuthentication()
-//				.withUser("admin").password("{noop}admin").roles("ADMIN")
-//				.and()
-//				.withUser("Jojo").password("{noop}jojo").roles("USER");
-//	}
 }
+
+
+
+
+////		.authorizeRequests()
+////        .anyRequest()
+////        .authenticated()
+////        .and()
+////    .authorizeRequests()
+////        .antMatchers("/index")
+////        .permitAll()
+////        .and()
+////    .formLogin();
+//	}
+////				
+////	@Autowired
+////	public void configureGlobal (AuthenticationManagerBuilder auth) throws Exception {
+////		
+////		auth
+////			.inMemoryAuthentication()
+////				.withUser("admin").password("{noop}admin").roles("ADMIN")
+////				.and()
+////				.withUser("Jojo").password("{noop}jojo").roles("USER");
+////	}
+//}
 
 
