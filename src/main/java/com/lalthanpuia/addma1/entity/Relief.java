@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="requestrelief")
-public class RequestReliefMaterialEntity {
+public class Relief {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -74,15 +74,14 @@ public class RequestReliefMaterialEntity {
 	String zoneName;
 
 
-	public RequestReliefMaterialEntity() {
+	public Relief() {
 	}
 
 
-	public RequestReliefMaterialEntity(int serialNumber, String details, String district, String landmarks, String lat,
+	public Relief(String details, String district, String landmarks, String lat,
 			String lng, String locality, String material, String materialId, String username, String phone,
 			String quantity, String requestOn, String status, String userId, String zonalOfficerContact,
 			String zonalOfficerId, String zonalOfficerName, String zoneId, String zoneName) {
-		this.serialNumber = serialNumber;
 		this.details = details;
 		this.district = district;
 		this.landmarks = landmarks;

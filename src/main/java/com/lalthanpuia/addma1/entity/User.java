@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="usertable")
-public class UserEntity {
+public class User {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -65,13 +65,22 @@ public class UserEntity {
 	
 	@Column(name="vol_with_us")
 	String volunteer;
+	
+	@Column (name="password")
+	String password;
+	
+	@Column(name="authority")
+	String authority;
 
-	public UserEntity() {
+	public User() {
+	
 	}
 
-	public UserEntity(String altContactName, String altContactNo, String createdAt, String district, String email,
-			String emergencyContactName, String emergencyContactNo, String lastLogin, String lat, String lng,
-			String locality, String username, String phoneNo, String userRole, String updateAt, String volunteer) {
+	public User(String altContactName, String altContactNo, String createdAt, String district,
+			String email, String emergencyContactName, String emergencyContactNo, String lastLogin, String lat,
+			String lng, String locality, String username, String phoneNo, String userRole, String updateAt,
+			String volunteer, String password, String authority) {
+	
 		this.altContactName = altContactName;
 		this.altContactNo = altContactNo;
 		this.createdAt = createdAt;
@@ -88,7 +97,11 @@ public class UserEntity {
 		this.userRole = userRole;
 		this.updateAt = updateAt;
 		this.volunteer = volunteer;
+		this.password = password;
+		this.authority = authority;
 	}
+
+
 
 	public int getSerialNumber() {
 		return serialNumber;
@@ -226,7 +239,30 @@ public class UserEntity {
 		this.volunteer = volunteer;
 	}
 
-	
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
+	public String getAuthority() {
+		return authority;
+	}
+
+
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
+	}
+
 
 
 	

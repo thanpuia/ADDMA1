@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lalthanpuia.addma1.dao.RequestReliefMaterialRepository;
-import com.lalthanpuia.addma1.entity.RequestReliefMaterialEntity;
+import com.lalthanpuia.addma1.entity.Relief;
 
 @Service
 public class RequestReliefMaterialServiceImpl implements RequestReliefMaterialService {
@@ -20,17 +20,17 @@ public class RequestReliefMaterialServiceImpl implements RequestReliefMaterialSe
 	}
 	
 	@Override
-	public List<RequestReliefMaterialEntity> findAll() {
+	public List<Relief> findAll() {
 
 		return requestReliefMaterialRepository.findAll();
 	}
 
 	@Override
-	public RequestReliefMaterialEntity findById(int theId) {
+	public Relief findById(int theId) {
 		
-		Optional<RequestReliefMaterialEntity> result = requestReliefMaterialRepository.findById(theId);
+		Optional<Relief> result = requestReliefMaterialRepository.findById(theId);
 		
-		RequestReliefMaterialEntity theRequestReliefMaterialEntity = null;
+		Relief theRequestReliefMaterialEntity = null;
 		
 		if (result.isPresent())
 			theRequestReliefMaterialEntity = result.get();
@@ -41,7 +41,7 @@ public class RequestReliefMaterialServiceImpl implements RequestReliefMaterialSe
 	}
 
 	@Override
-	public void save(RequestReliefMaterialEntity theRequestReliefMaterialEntity) {
+	public void save(Relief theRequestReliefMaterialEntity) {
 		requestReliefMaterialRepository.save(theRequestReliefMaterialEntity);
 	}
 

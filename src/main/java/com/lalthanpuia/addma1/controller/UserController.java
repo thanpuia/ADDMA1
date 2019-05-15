@@ -4,21 +4,25 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.lalthanpuia.addma1.entity.UserEntity;
+import com.lalthanpuia.addma1.entity.User;
 import com.lalthanpuia.addma1.service.UserEntityService;
 
 @Controller
@@ -37,7 +41,7 @@ public class UserController {
 	@GetMapping("/userDetails")
 	public String listUserDetails(Model theModel) {
 		
-		List<UserEntity> theUserEntity = userEntityService.findAll();
+		List<User> theUserEntity = userEntityService.findAll();
 		
 		theModel.addAttribute("users", theUserEntity);
 		
@@ -48,7 +52,7 @@ public class UserController {
 	@GetMapping("/signUp")
 	public String userSignUpForm (Model theModel) {
 		
-		UserEntity theUserEntity = new UserEntity();
+		User theUserEntity = new User();
 		
 		theModel.addAttribute("userEntity", theUserEntity);
 	
@@ -57,17 +61,23 @@ public class UserController {
 
 	//SIGNUP HANDLER 2
 	@PostMapping("/showFormForAdd")
-	public String saveData(@ModelAttribute("userEntity") UserEntity theUserEntity) {
+	public String saveData(@ModelAttribute("userEntity") User theUserEntity) {
+		
+		//puttiing ({noop} in front of the password so the the database can do someithing , i dont know exactly why we add this, but without this it do not work
+		theUserEntity.setPassword("{noop}"+theUserEntity.getPassword());
 		
 		userEntityService.save(theUserEntity);
 		
-		return "redirect:/userDetails";
+		//return "redirect:/userDetails";
+		return "redirect:/showAll";
+
 	}
 	
 	@GetMapping("/index")
 	public String home() {
 	
-		return "/home";
+		return "redirect:/showAll";
+		//return "/home";
 	}
 //	ORIGINAL
 //	@GetMapping("/showAll")
@@ -79,7 +89,9 @@ public class UserController {
 //			 username = ((UserDetails)principal).getUsername();
 //		else username=principal.toString();
 //		
+
 //		theModel.addAttribute("username", username);
+
 //		System.out.println(""+username);
 //		
 //		//TRYING TO GET THE USER DETAILS HERE
@@ -100,9 +112,14 @@ public class UserController {
 			 username = ((UserDetails)principal).getUsername();
 		else username=principal.toString();
 		
+		if(username.equals("anonymousUser")) {
+			username = "Guest";
+			System.out.println(""+username);
+		}
 		theModel.addAttribute("username", username);
 		
 		theModel = theModel.addAttribute("username", username);
+		
 		System.out.println(""+username);
 		
 		//TRYING TO GET THE USER DETAILS HERE
@@ -145,6 +162,14 @@ public class UserController {
         return "Mail Sent Success!";
 	}
 	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    if (auth != null){    
+	        new SecurityContextLogoutHandler().logout(request, response, auth);
+	    }
+	    return "redirect:/login?logout";
+	}
 	
 //	
 //	@GetMapping("/phoneAuth")

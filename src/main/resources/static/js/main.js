@@ -126,5 +126,32 @@ jQuery(document).ready(function ($) {
   });
 
   // custom code
-
 });
+  //SELECT LOCATION ACCORDING TO DISTRICT
+////  $(document).ready(function () {
+//  $("#type").change(function () {
+//       var val = $(this).val();
+//       if (val == "Mamit") {
+//           $("#size").html("<option value='Mamit_Veng1'>Mamit_Veng1</option><option value='Mamit_Veng2'>Mamit_Veng2</option>");
+//       } else if (val == "Kolasib") {
+//           $("#size").html("<option value='Kolasib_Veng1'>Kolasib_Veng2</option><option value='Kolasib_Veng2'>Kolasib_Veng2</option>");
+//       } else if (val == "Aizawl") {
+//           $("#size").html("<option value='Aizawl_Veng1'>Aizawl_Veng1</option><option value='Aizawl_Veng2'>Aizawl_Veng2</option>");
+//       } else if (val == "Serchhip") {
+//           $("#size").html("<option value='Serchhip_Veng1'>Serchhip_Veng1</option><option value='Serchhip_Veng2'>Serchhip_Veng2</option>");
+//       } else if (val == "Champhai") {
+//           $("#size").html("<option value='Champhai_Veng1'>Champhai_Veng1</option><option value='Champhai_Veng2'>Champhai_Veng2</option>");
+//       } else if (val == "Lunglei") {
+//           $("#size").html("<option value='Lunglei_Veng1'>Lunglei_Veng1</option><option value='Lunglei_Veng2'>Lunglei_Veng2</option>");
+//       } else if (val == "Lawngtlai") {
+//           $("#size").html("<option value='Lawngtlai_Veng1'>Lawngtlai_Veng1</option><option value='Lawngtlai_Veng2'>Lawngtlai_Veng2</option>");
+//       } else if (val == "Siaha") {
+//           $("#size").html("<option value='Siaha_Veng1'>Siaha_Veng1</option><option value='Siaha_Veng2'>Siaha_Veng2</option>");
+//       } else if (val == "item0") {
+//           $("#size").html("<option value=''>--select locality--</option>");
+//       }
+//   });
+//});
+//
+
+

@@ -2,60 +2,120 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{fragments/layout}">
+    
 <head>
     <title>Login</title>
+    
+        <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/4.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  
+  <!-- Favicons -->
+  <link href="img/favicon.png" rel="icon">
+  <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700" rel="stylesheet">
+
+  <!-- Bootstrap CSS File -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Libraries CSS Files -->
+  <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+
+  <!-- Main Stylesheet File -->
+  <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-<div layout:fragment="content" th:remove="tag">
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h1>Login pagde</h1>
-             <p th:text="${username}"></p>
-            <form th:action="@{/login}" method="post">
-                <div th:if="${param.error}">
-                    <div class="alert alert-danger">
-                        Invalid user name or password.
-                    </div>
-                </div>
-                <div th:if="${param.logout}">
-                    <div class="alert alert-info">
-                        You have been logged out.
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="username">Username</label>:
-                    <input type="text"
-                           id="username"
-                           name="username"
-                           class="form-control"
-                           autofocus="autofocus"
-                           placeholder="Username">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>:
-                    <input type="password"
-                           id="password"
-                           name="password"
-                           class="form-control"
-                           placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <input type="submit"
-                                   name="login-submit"
-                                   id="login-submit"
-                                   class="form-control btn btn-info"
-                                   value="Log In">
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+  <!--==========================
+  Header
+  ============================-->
+  <header id="header">
+    <div class="container">
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="menu-active"><a th:href="@{/}">Home</a></li>
+          <li><a th:href="@{/admin/showNotify}">Admin</a></li>
+   <!--        <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a href="#team">Team</a></li>
+          <li class="menu-has-children"><a href="">Drop Down</a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="menu-has-children"><a href="#">Drop Down 2</a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+              <li><a href="#">Drop Down 5</a></li>
+            </ul>
+          </li> -->
+          <li>
+       		<!-- <div sec:authorize="isAuthenticated()">
+       		          <a th:href="@{/logout}">Logout</a>
+       		
+			</div> -->
+       
+       	<div th:if="${#request.userPrincipal}">
+  			<a th:href="@{/logout}">Logout</a>
+  			
+		</div>
+          </li>
+          
+          <li><a th:href="@{/signUp}">Sign Up</a> </li>
+          <li><a th:href="@{/login}">Sign In</a> </li>
+     
+        </ul>
+      </nav><!-- #nav-menu-container -->
     </div>
+  </header><!-- #header -->
 
-    <p><a href="/" th:href="@{/}">Back to home page</a></p>
+
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Sign In</h5>
+            <form class="form-signin" th:action="@{/login}" method="post">
+              <div class="form-label-group">
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+                <label for="username">Username</label>
+              </div>
+
+              <div class="form-label-group">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                <label for="password">Password</label>
+              </div>
+
+              <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Remember password</label>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+              <hr class="my-4">
+               </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 </body>

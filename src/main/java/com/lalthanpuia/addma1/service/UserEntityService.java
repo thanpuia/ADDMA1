@@ -3,13 +3,13 @@ package com.lalthanpuia.addma1.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.lalthanpuia.addma1.entity.UserEntity;
+import com.lalthanpuia.addma1.entity.User;
 
 public interface UserEntityService {
 
-	public List<UserEntity> findAll();
+	public List<User> findAll();
 		
-	public void save(UserEntity theUserEntity);
+	public void save(User theUserEntity);
 	
-	public UserEntity findById(int theId);
+	public User findByUsername(String theUsername);
 }

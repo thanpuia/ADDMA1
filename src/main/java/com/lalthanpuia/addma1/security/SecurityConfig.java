@@ -51,18 +51,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http
+		http.cors().and().csrf().disable()
 			.authorizeRequests()
 //			.antMatchers("/adminShowAll").hasRole("ADMIN")
-			.antMatchers("/request/requestRelief").hasRole("ADMIN")
-
+			.antMatchers("/request/requestRelief").hasAnyRole("ADMIN", "USER")
+			.antMatchers("/report/reportIncident").hasAnyRole("ADMIN", "USER")
 				.antMatchers("/phoneAuth","/userDetails").permitAll()
 				.and()
 				.formLogin().loginPage("/login")
 				.permitAll().defaultSuccessUrl("/index")
 				.and()
-				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/chhuak")).logoutSuccessUrl("/login")	;
-		
+				.logout().
+				logoutUrl("/logout").
+				logoutSuccessUrl("/login")
+				;
 	}
 }
 

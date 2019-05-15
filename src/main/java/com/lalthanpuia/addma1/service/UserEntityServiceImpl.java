@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lalthanpuia.addma1.dao.UserRepository;
-import com.lalthanpuia.addma1.entity.UserEntity;
+import com.lalthanpuia.addma1.entity.User;
 
 @Service
 public class UserEntityServiceImpl implements UserEntityService {
@@ -20,28 +20,31 @@ public class UserEntityServiceImpl implements UserEntityService {
 	}
 	
 	@Override
-	public List<UserEntity> findAll() {
+	public List<User> findAll() {
 			return userRepository.findAll();
 	}
 
 	@Override
-	public void save(UserEntity theUserEntity) {
+	public void save(User theUserEntity) {
 		userRepository.save(theUserEntity);
 		
 	}
-	
+
 	@Override
-	public UserEntity findById(int theId) {
+	public User findByUsername(String theUsername) {
 		
-		Optional<UserEntity> result = userRepository.findById(theId);
+		Optional<User> result = userRepository.findByUsername(theUsername);
 		
-		UserEntity theUserEntity = null;
-		if(result.isPresent()) 
+		User theUserEntity= null;
+		
+		if(result.isPresent())
 			theUserEntity=result.get();
 		else
-			throw new RuntimeException("Did not find employee id - "+ theId);
+			throw new RuntimeException("Did not find employee id - "+ theUsername);
 		
 		return theUserEntity;
 	}
+	
+	
 	
 }

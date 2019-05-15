@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lalthanpuia.addma1.dao.ReportIncidentRepository;
-import com.lalthanpuia.addma1.entity.ReportIncidentEntity;
+import com.lalthanpuia.addma1.entity.Incident;
 
 @Service
 public class ReportIncidentServiceImpl implements ReportIncidentService {
@@ -20,15 +20,15 @@ public class ReportIncidentServiceImpl implements ReportIncidentService {
 	}
 	
 	@Override
-	public List<ReportIncidentEntity> findAll() {
+	public List<Incident> findAll() {
 		return reportIncidentRepository.findAll();
 	}
 
 	@Override
-	public ReportIncidentEntity findById(int theId) {
-Optional<ReportIncidentEntity> result = reportIncidentRepository.findById(theId);
+	public Incident findById(int theId) {
+Optional<Incident> result = reportIncidentRepository.findById(theId);
 		
-ReportIncidentEntity theReportIncidentEntity = null;
+Incident theReportIncidentEntity = null;
 		if(result.isPresent()) 
 			theReportIncidentEntity=result.get();
 		else
@@ -38,7 +38,7 @@ ReportIncidentEntity theReportIncidentEntity = null;
 	}
 
 	@Override
-	public void save(ReportIncidentEntity theReportIncidentEntity) {
+	public void save(Incident theReportIncidentEntity) {
 
 		reportIncidentRepository.save(theReportIncidentEntity);
 	}

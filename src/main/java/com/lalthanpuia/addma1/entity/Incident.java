@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name="report")
-public class ReportIncidentEntity {
+public class Incident {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -265,7 +265,7 @@ public class ReportIncidentEntity {
 		this.zoneName = zoneName;
 	}
 
-	public ReportIncidentEntity(int serialNumber, String disasterType, String locality, String landmarks,
+	public Incident(int serialNumber, String disasterType, String locality, String landmarks,
 			String disastersDetails, String details, String disasterTypeId, String district, String inLocation,
 			String lat, String lng, String location, String username, String phone, String reportOn, String status,
 			String userId, String zonalOfficerContact, String zonalOfficerId, String zonalOfficerName, String zoneId,
@@ -294,7 +294,7 @@ public class ReportIncidentEntity {
 		this.zoneName = zoneName;
 	}
 
-	public ReportIncidentEntity() {
+	public Incident() {
 	}
 	
 	

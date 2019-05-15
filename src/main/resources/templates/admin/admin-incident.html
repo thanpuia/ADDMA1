@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+ <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<body>
+	<h1>Welcome Administrator, Incident Table</h1>
+
+<table class="table table-hover table-striped ">
+	<thead>
+		<tr>
+			<th scope="col">Serial No</th>
+			<th scope="col">Disaster Type</th>
+			<th scope="col">Locality</th>
+			<th scope="col">Landmark</th>
+			<th scope="col">Disaster Details</th>
+			<th scope="col">District</th>
+			<th scope="col">User name</th>
+			<th scope="col">Phone</th>
+			<th scope="col">Zonal Officer Id</th>
+			<th scope="col">Zonal Officer Name</th>
+			<th scope="col">Zonal Officer Contact</th>
+			<th scope="col">Zone Name</th>
+			<th scope="col">Status</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	
+		<tr th:each="tempIncident : ${allIncident}">
+			<!-- <td scope="row" th:id="${tempUser.SerialNo}"  /> -->
+ 			<td th:text="${tempIncident.serialNumber}"  />
+ 			<td th:text="${tempIncident.disasterType}"  />
+			<td th:text="${tempIncident.locality}"  />
+			<td th:text="${tempIncident.landmarks}"  />
+			<td th:text="${tempIncident.disastersDetails}"  />
+			<td th:text="${tempIncident.district}"  />
+			<td th:text="${tempIncident.username}"  />
+			<td th:text="${tempIncident.phone}"  />
+			<td th:text="${tempIncident.zonalOfficerId}"  />
+			<td th:text="${tempIncident.zonalOfficerName}"  />
+			<td th:text="${tempIncident.zonalOfficerContact}"  />
+			<td th:text="${tempIncident.zoneName}"  />
+			<td th:text="${tempIncident.status}"  />
+	
+		<td>
+			<div class="col-small">
+					<!-- Add "delete" button/link -->					
+					<form action="#" th:action="@{/admin/incident/update}" method="POST">
+					
+						<input type="hidden" name="incidentId" th:value="${tempIncident.serialNumber}" />						
+						<button type="submit" class="btn btn-danger btn-sm"
+								onclick="if (!(confirm('Change the status?'))) return false">
+								Resolve
+						</button>
+
+					</form>
+					</div>
+			</td>
+		</tr>
+	
+	</tbody>
+
+
+
+</table> 
+</body>
+</html>

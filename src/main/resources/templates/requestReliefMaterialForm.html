@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  
+  	<script type="text/javascript" >
+ 	$(document).ready(function () {
+ 	    $("#type").change(function () {
+ 	        var val = $(this).val();
+ 	        
+ 	       /*  	        number are given in alphabetical order azl, champm ,kolsib,long,lung,mamit, serchp , saiha
+ 	        */ 	        
+ 	        	        if (val == "Aizawl") {
+ 	        	            $("#size").html("<option value='1'>Aizawl_Veng1</option><option value='2'>Aizawl_Veng2</option>");
+ 	        	        } else if (val == "Champhai") {
+ 	        	            $("#size").html("<option value='3'>Champhai_Veng1</option><option value='4'>Champhai_Veng2</option>");
+ 	        	        } else if (val == "Kolasib") {
+ 	        	            $("#size").html("<option value='5'>Kolasib_Veng1</option><option value='6'>Kolasib_Veng2</option>");
+ 	        	        } else if (val == "Lawngtlai") {
+ 	        	            $("#size").html("<option value='7'>Lawngtlai_Veng1</option><option value='8'>Lawngtlai_Veng2</option>");
+ 	        	        } else if (val == "Lunglei") {
+ 	        	            $("#size").html("<option value='9'>Lunglei_Veng1</option><option value='10'>Lunglei_Veng2</option>");
+ 	        	        } else if (val == "Mamit") {
+ 	        	            $("#size").html("<option value='11'>Mamit_Veng1</option><option value='12'>Mamit_Veng2</option>");
+ 	        	        } else if (val == "Serchhip") {
+ 	        	            $("#size").html("<option value='13'>Serchhip_Veng1</option><option value='14'>Serchhip_Veng2</option>");
+ 	        	        } else if (val == "Siaha") {
+ 	        	            $("#size").html("<option value='15'>Siaha_Veng1</option><option value='16'>Siaha_Veng2</option>");
+ 	        	        } else if (val == "item0") {
+ 	        	            $("#size").html("<option value=''>--select locality--</option>");
+ 	        	        }
+ 	        	    });
+ 	        	});
+ 	</script> 
+</head>
+<head>
+<body >
+	 <!--==========================
+  Header
+  ============================-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+  <ul class="nav justify-content-end">
+  <li class="nav-item">
+    <a class="nav-link active" th:href="@{/}">Home</a>
+  </li>
+  
+  <li class="nav-item">
+    <a class="nav-link" th:href="@{/admin/showNotify}">Admin</a>
+  </li>
+  
+  <li>
+       	<div th:if="${#request.userPrincipal}">
+  			<a class="nav-link" th:href="@{/logout}">Logout</a>	
+		</div>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" th:href="@{/signUp}">Sign Up</a>
+  </li>
+ 
+  <li class="nav-item">
+    <a class="nav-link disabled" th:href="@{/login}">Sign In</a>
+  </li>
+</ul>
+
+	</nav>
+	
+	
+	<div class="mx-5">
+	
+	 <form action="#" th:action="@{/request/saveRequestRelief}" 
+  					th:object="${requestReliefMaterial}" method="POST" >
+  					
+
+  
+  <div class="form-group row">
+    <label for="details" class="col-sm-2 col-form-label">Details</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="details" th:field ="*{details}" placeholder="Details">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="landmarks" class="col-sm-2 col-form-label">Landmarks</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="landmarks" th:field ="*{landmarks}" placeholder="Landmarks">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="material" class="col-sm-2 col-form-label">Material</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="material" th:field ="*{material}" placeholder="material">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="materialid" class="col-sm-2 col-form-label">material id</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="materialid" th:field ="*{materialId}" placeholder="Material Id">
+    </div>
+  </div>
+  
+    <div class="form-group row">
+    <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="quantity" th:field ="*{quantity}" placeholder="Quantity">
+    </div>
+  </div>
+
+ 
+<div class="form-group col-md-4">
+	<label for="type">District</label>
+	<select id="type" class="form-control" th:field="*{district}">
+    	<option value="item0">--Select District--</option>
+    	<option value="Mamit">Mamit</option>
+    	<option value="Kolasib">Kolasib</option>
+    	<option value="Aizawl">Aizawl</option>
+    	<option value="Serchhip">Serchhip</option>
+    	<option value="Champhai">Champhai</option>
+    	<option value="Lunglei">Lunglei</option>
+    	<option value="Lawngtlai">Lawngtlai</option>
+    	<option value="Siaha">Siaha</option>
+	</select>
+	
+	<label for="size">Locality</label>
+	<select id="size" th:field="*{locality}">
+    	<option value="">-- select one -- </option>
+	</select>
+
+</div>
+
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Sent</button>
+    </div>
+  </div>
+</form>
+	</div>			
+  
+
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	
+	
+</body>
+</html>

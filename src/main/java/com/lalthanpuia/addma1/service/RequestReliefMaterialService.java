@@ -2,15 +2,15 @@ package com.lalthanpuia.addma1.service;
 
 import java.util.List;
 
-import com.lalthanpuia.addma1.entity.RequestReliefMaterialEntity;
+import com.lalthanpuia.addma1.entity.Relief;
 
 public interface RequestReliefMaterialService {
 
-	public List<RequestReliefMaterialEntity> findAll();
+	public List<Relief> findAll();
 	
-	public RequestReliefMaterialEntity findById (int theId);
+	public Relief findById (int theId);
 	
-	public void save (RequestReliefMaterialEntity theRequestReliefMaterialEntity);
+	public void save (Relief theRequestReliefMaterialEntity);
 	
 	public void deleteById (int theId);
 }

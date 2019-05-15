@@ -2,8 +2,8 @@ package com.lalthanpuia.addma1.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.lalthanpuia.addma1.entity.ReportIncidentEntity;
+import com.lalthanpuia.addma1.entity.Incident;
 
-public interface ReportIncidentRepository extends JpaRepository<ReportIncidentEntity, Integer> {
+public interface ReportIncidentRepository extends JpaRepository<Incident, Integer> {
 
 }

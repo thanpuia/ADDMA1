@@ -1,15 +1,44 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  	<script type="text/javascript" >
+ 	$(document).ready(function () {
+ 	    $("#type").change(function () {
+ 	        var val = $(this).val();
+ 	        if (val == "Mamit") {
+ 	            $("#size").html("<option value='Mamit_Veng1'>Mamit_Veng1</option><option value='Mamit_Veng2'>Mamit_Veng2</option>");
+ 	        } else if (val == "Kolasib") {
+ 	            $("#size").html("<option value='Kolasib_Veng1'>Kolasib_Veng2</option><option value='Kolasib_Veng2'>Kolasib_Veng2</option>");
+ 	        } else if (val == "Aizawl") {
+ 	            $("#size").html("<option value='Aizawl_Veng1'>Aizawl_Veng1</option><option value='Aizawl_Veng2'>Aizawl_Veng2</option>");
+ 	        } else if (val == "Serchhip") {
+ 	            $("#size").html("<option value='Serchhip_Veng1'>Serchhip_Veng1</option><option value='Serchhip_Veng2'>Serchhip_Veng2</option>");
+ 	        } else if (val == "Champhai") {
+ 	            $("#size").html("<option value='Champhai_Veng1'>Champhai_Veng1</option><option value='Champhai_Veng2'>Champhai_Veng2</option>");
+ 	        } else if (val == "Lunglei") {
+ 	            $("#size").html("<option value='Lunglei_Veng1'>Lunglei_Veng1</option><option value='Lunglei_Veng2'>Lunglei_Veng2</option>");
+ 	        } else if (val == "Lawngtlai") {
+ 	            $("#size").html("<option value='Lawngtlai_Veng1'>Lawngtlai_Veng1</option><option value='Lawngtlai_Veng2'>Lawngtlai_Veng2</option>");
+ 	        } else if (val == "Siaha") {
+ 	            $("#size").html("<option value='Siaha_Veng1'>Siaha_Veng1</option><option value='Siaha_Veng2'>Siaha_Veng2</option>");
+ 	        } else if (val == "item0") {
+ 	            $("#size").html("<option value=''>--select locality--</option>");
+ 	        }
+ 	    });
+ 	});
+ 	</script> 
 </head>
 <body>
 
-	<div class="container">
+
+	<!-- <div class="container">
 	
 	<h3>Add name</h3>
 	<hr>
@@ -17,28 +46,187 @@
 	<form action="#" th:action="@{/showFormForAdd}"
 					th:object="${userEntity}" method="POST">
 					
-	<input type="hidden" th:field="*{serialNo}">
-	<input type="text" th:field="*{altContactName}" placeholder="altContactName">
-	<input type="text" th:field="*{altContactNo}" placeholder="altContactNo">
-	<input type="text" th:field="*{createdAt}" placeholder="createdAt">
-	<input type="text" th:field="*{district}" placeholder="district">
-	<input type="text" th:field="*{email}" placeholder="email">
-	<input type="text" th:field="*{emergencyContactName}" placeholder="emergencyContactName">
-	<input type="text" th:field="*{emergencyContactNo}" placeholder="emergencyContactNo">
-	<input type="text" th:field="*{lastLogin}" placeholder="lastLogin">
-	<input type="text" th:field="*{lat}" placeholder="lat">
-	<input type="text" th:field="*{lng}" placeholder="lng">
-	<input type="text" th:field="*{locality}" placeholder="locality">
-	<input type="text" th:field="*{username}" placeholder="username">
-	<input type="text" th:field="*{phoneNo}" placeholder="phoneNo">
-	<input type="text" th:field="*{userRole}" placeholder="userRole">
-	<input type="text" th:field="*{updateAt}" placeholder="updateAt">
-	<input type="text" th:field="*{volunteer}" placeholder="volunteer">
+	<input type="hidden" th:field="*{serialNumber}">
+	<input type="text" th:field="*{altContactName}"			placeholder="altContactName">
+	<input type="text" th:field="*{altContactNo}" 			placeholder="altContactNo">
+	<input type="text" th:field="*{createdAt}" 				placeholder="createdAt">
+	<input type="text" th:field="*{district}" 				placeholder="district">
+	<input type="text" th:field="*{email}" 					placeholder="email">
+	<input type="text" th:field="*{emergencyContactName}" 	placeholder="emergencyContactName">
+	<input type="text" th:field="*{emergencyContactNo}" 	placeholder="emergencyContactNo">
+	<input type="text" th:field="*{lastLogin}"				placeholder="lastLogin">
+	<input type="text" th:field="*{lat}" 					placeholder="lat">
+	<input type="text" th:field="*{lng}" 					placeholder="lng">
+	<input type="text" th:field="*{locality}" 				placeholder="locality">
+	<input type="text" th:field="*{username}" 				placeholder="username">
+	<input type="text" th:field="*{phoneNo}" 				placeholder="phoneNo">
+	<input type="text" th:field="*{userRole}"				placeholder="userRole">
+	<input type="text" th:field="*{updateAt}" 				placeholder="updateAt">
+	<input type="text" th:field="*{volunteer}"				placeholder="volunteer">
+	
+	<input type="text" th:field="*{password}"				placeholder="password">
+	<input type="text" th:field="*{authority}"				placeholder="authority">
+	
  
 					<button type="submit">Save</button>
 					
 	</form>
-	</div>
+	</div> -->
+	
+		<div class="mx-5">
+	
+	 <form action="#" th:action="@{/showFormForAdd}" 
+  					th:object="${userEntity}" method="POST">
+		  					
+  	<div class="form-group row">
+    <div class="col-sm-10">
+      <input type="hidden" class="form-control" id="serialno" th:field ="*{serialNumber}" >
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="disasterType" class="col-sm-2 col-form-label">Alternate Contact Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="details" th:field ="*{altContactName}" placeholder="altContactName ">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="locality" class="col-sm-2 col-form-label">Alternate Contact Number</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="locality" th:field ="*{altContactNo}" placeholder="altContactNo">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="landmarks" class="col-sm-2 col-form-label">Created at</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="Landmarks" th:field ="*{createdAt}" placeholder="createdAt">
+    </div>
+  </div>
+  
+
+  
+  <div class="form-group row">
+    <label for="details" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="details" th:field ="*{email}" placeholder="email">
+    </div>
+  </div>
+  
+    <div class="form-group row">
+    <label for="status" class="col-sm-2 col-form-label">Emergency Contact Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="status" th:field ="*{emergencyContactName}" placeholder="emergencyContactName">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="disasterType" class="col-sm-2 col-form-label">Emergency Contact Number</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="details" th:field ="*{emergencyContactNo}" placeholder="emergencyContactNo ">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="locality" class="col-sm-2 col-form-label">Last Login</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="locality" th:field ="*{lastLogin}" placeholder="lastLogin">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="landmarks" class="col-sm-2 col-form-label">Latitude</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="Landmarks" th:field ="*{lat}" placeholder="lat">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="disasterDetails" class="col-sm-2 col-form-label">Longitude</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="disasterDetails" th:field ="*{lng}" placeholder="lng">
+    </div>
+  </div>
+  
+
+  
+    <div class="form-group row">
+    <label for="status" class="col-sm-2 col-form-label">User name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="status" th:field ="*{username}" placeholder="username">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="disasterType" class="col-sm-2 col-form-label">Phone Number</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="details" th:field ="*{phoneNo}" placeholder="phoneNo ">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="locality" class="col-sm-2 col-form-label">userRole</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="locality" th:field ="*{userRole}" placeholder="userRole">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="landmarks" class="col-sm-2 col-form-label">Update At</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="Landmarks" th:field ="*{updateAt}" placeholder="updateAt">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="disasterDetails" class="col-sm-2 col-form-label">Volunteer With Us</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="disasterDetails" th:field ="*{volunteer}" placeholder="volunteer">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="details" class="col-sm-2 col-form-label">Password</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="details" th:field ="*{password}" placeholder="password">
+    </div>
+  </div>
+  
+ 
+  <div class="form-group col-md-4">
+	<label for="type">District</label>
+	<select id="type" class="form-control" th:field="*{district}">
+    	<option value="item0">--Select District--</option>
+    	<option value="Mamit">Mamit</option>
+    	<option value="Kolasib">Kolasib</option>
+    	<option value="Aizawl">Aizawl</option>
+    	<option value="Serchhip">Serchhip</option>
+    	<option value="Champhai">Champhai</option>
+    	<option value="Lunglei">Lunglei</option>
+    	<option value="Lawngtlai">Lawngtlai</option>
+    	<option value="Siaha">Siaha</option>
+	</select>
+	
+	<label for="size">Locality</label>
+	<select id="size" th:field="*{locality}">
+    	<option value="">-- select one -- </option>
+	</select>
+
+</div>
+
+ 
+ 
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+  </div>
+</form>
+	
+	
+	</div>			
+  
 
 </body>
 </html>

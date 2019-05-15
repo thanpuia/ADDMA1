@@ -15,8 +15,21 @@
 
    <form action="#" th:action="@{/request/saveRequestRelief}" 
   					th:object="${requestReliefMaterial}" method="POST">
-		
+		SLIM
 	<input type="hidden" th:field="*{serialNumber}">
+	<input type="text" th:field="*{details}" placeholder="details">
+	<input type="text" th:field="*{landmarks}" placeholder="landmarks">
+	<input type="text" th:field="*{locality}" placeholder="locality">
+	<input type="text" th:field="*{material}" placeholder="material">
+	<input type="text" th:field="*{materialId}" placeholder="materialId">
+	<input type="text" th:field="*{quantity}" placeholder="quantity">
+<!-- 	<input type="text" th:field="*{district}" placeholder="district">
+ -->	<select th:field="*{district}">
+		<option th:value="Aizawl" th:text="Aizawl"></option>
+		<option th:value="Lunglei" th:text="Lunglei"></option>
+	</select>
+	ORI
+	<!-- <input type="hidden" th:field="*{serialNumber}">
 	<input type="text" th:field="*{details}" placeholder="details">
 	<input type="text" th:field="*{district}" placeholder="distric">
 	<input type="text" th:field="*{landmarks}" placeholder="landmarks">
@@ -29,13 +42,13 @@
 	<input type="text" th:field="*{phone}" placeholder="phone">
 	<input type="text" th:field="*{quantity}" placeholder="quantity">
 	<input type="text" th:field="*{requestOn}" placeholder="requestOn">
-	<input type="text" th:field="*{status}" placeholder="status">
+	<input type="text" th:f	ield="*{status}" placeholder="status">
 	<input type="text" th:field="*{userId}" placeholder="userId">
 	<input type="text" th:field="*{zonalOfficerContact}" placeholder="zonalOfficerContact">
 	<input type="text" th:field="*{zonalOfficerId}" placeholder="zonalOfficerId">
 	<input type="text" th:field="*{zonalOfficerName}" placeholder="zonalOfficerName">
 	<input type="text" th:field="*{zoneId}" placeholder="zoneId">
-	<input type="text" th:field="*{zoneName}" placeholder="zoneName">
+	<input type="text" th:field="*{zoneName}" placeholder="zoneName"> -->
 	
 
 	<button type="submit">Save</button>
