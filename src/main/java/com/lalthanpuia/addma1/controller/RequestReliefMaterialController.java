@@ -86,12 +86,11 @@ public class RequestReliefMaterialController {
 				//UserEntity myUserEntity = getUserDetails(1);
 				//System.out.println(myUserEntity.getEmail());
 				
-				
-			// 1.2 GET THE USER DISTRICT SO THAT WE CAN FETCH THE ZONAL OFFICER
+				// 1.2 GET THE USER DISTRICT SO THAT WE CAN FETCH THE ZONAL OFFICER
 				String myDistrict = theRequestReliefMaterialEntity.getDistrict();
 				String myLocality = theRequestReliefMaterialEntity.getLocality();
 
-			//	System.out.print("this is the dristrict: "+myDistrict);
+				//	System.out.print("this is the dristrict: "+myDistrict);
 				
 				/*
 				HERER WE TAKE THE VALUE OF Locality from reportIncidentEntity.. the value of the Locality is similar to
@@ -99,7 +98,7 @@ public class RequestReliefMaterialController {
 				*/
 				//Officer currentZonalOfficer = zonalOfficerService.findByDistrict(myDistrict);
 				Officer currentZonalOfficer = zonalOfficerService.findByOfficerZone(myLocality);
-				System.out.print("this is the Zonal Officer: "+currentZonalOfficer);
+				System.out.print("this is the Zonal Officer: "+currentZonalOfficer.getOfficerName());
 				
 				
 			//2. GET THE USERDETAILS	
@@ -112,8 +111,11 @@ public class RequestReliefMaterialController {
 				String mUsername = currentUserEntity.getUsername();
 				String mPhone = currentUserEntity.getPhoneNo();
 				
+				System.out.print("Username "+mPhone);
+
 				//2.2 GET THE USERDETAILS FROM THE SMART PHONE
 				
+			
 				
 				//2.3 GET THE ZONAL OFFICER DETAILS FROM THE ZONALOFFICER TABLE
 			

@@ -36,6 +36,8 @@ public class MyRestController {
 	private NotificationService notificationRequestReliefService;
 	private UserNotificationService userNotificationService;
 	
+	public User mUser  = new User();
+	
 	@Autowired
 	private JavaMailSender sender;
 	
@@ -48,6 +50,7 @@ public class MyRestController {
 		this.zonalOfficerService = theZonalOfficerService; 
 		this.notificationRequestReliefService = theNotificationRequestReliefService;
 		this.userNotificationService = theUserNotificationService;
+		//mUser = new User();
 	}
 	
 	@RequestMapping("/test")
@@ -85,7 +88,7 @@ public class MyRestController {
 
 				
 				//CHECK THE AVAILABILTIY OF PHONE NUMBER BY CALLING IT;
-				User mUser2 = userEntityService.findByPhoneNo(phone);
+		///		User mUser2 = userEntityService.findByPhoneNo(phone);
 		  
 //				if(mUser1 != null) {
 //					System.out.println("Username all ready present"+mUser1);
@@ -134,36 +137,73 @@ public class MyRestController {
 	@GetMapping("/test/{username}/{password}")
 	public User login(@PathVariable String username, @PathVariable String password) {
 
+		//mUser = new User();
 
-		System.out.println("Username: "+ username);
-		System.out.println("Password: "+ password);
+//		System.out.println("Username: "+ username);
+//		
+//		//the noop cannot be added in the client side so it must be here
+//		password =password;
+//		System.out.println("Password: "+ password);
+//
+//		
+//		//try {
+//			//User mUser = new User();
+//			System.out.println("1");
+//			mUser = userEntityService.findByUsername(username);
+//			
+//			System.out.println("2"+ mUser.getUsername());
+//
+//			String mPassword = mUser.getPassword();	
+//			System.out.println("Username: "+ username);
+//
+//			System.out.println("Real userpassword: "+mPassword);
+////			if(mPassword.equals(password)) {
+////				System.out.println("3");
+////
+////			}else {
+////				mUser = null;
+////				System.out.println("INside if Else: ");
+////				return mUser;
+////			}
+////			System.out.println("4");
+////
+////				
+////		}catch(Exception e) {
+////			System.out.println("User inside catch:"+mUser.getUsername());
+////			System.out.println("Error: "+e);
+////			System.out.println("5");
+////
+////			mUser = null;
+////			return mUser;
+////		}
+//		System.out.println("6");
+//
+//		System.out.println("User otsi:"+mUser.getUsername());
+//	    return mUser;
 		
-		//the noop cannot be added in the cliet side so it must be here
-		password = "{noop}"+password;
+		System.out.println("Username: "+username);
+		System.out.println("Password: "+password);
+
 		
 		User mUser = new User();
 		try {
 			mUser = userEntityService.findByUsername(username);
 			String mPassword = mUser.getPassword();	
-			System.out.println("Real userpassword: "+mPassword);
+			System.out.println("Real userpassowr: "+mPassword);
 			if(mPassword.equals(password)) {
 			}else {
 				mUser = null;
 				System.out.println("INside if Else: ");
 				return mUser;
 			}
-				
-				
 		}catch(Exception e) {
-			System.out.println("User inside catch:"+mUser.getUsername());
-			System.out.println("Error: "+e);
-				
+			System.out.println("User inside catch:"+mUser.getUsername());		
 			mUser = null;
 			return mUser;
 		}
 			
 		System.out.println("User otsi:"+mUser.getUsername());
-	    return mUser;
+		return mUser;
 	  }
 
 	

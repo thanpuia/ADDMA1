@@ -33,48 +33,35 @@ public class UserEntityServiceImpl implements UserEntityService {
 	@Override
 	public User findByUsername(String theUsername) {
 		
-		//Optional<User> result = userRepository.findByUsername(theUsername);
-		List<User> result = userRepository.findByUsername(theUsername);
+		Optional<User> result = userRepository.findByUsername(theUsername);
+		//List<User> result = userRepository.findByUsername(theUsername);
 	
 		
 		User theUserEntity= null;
 		System.out.println("Username in the entity service: "+ theUserEntity.getUsername());
 		
-		if(result.get(0) != null)
-			theUserEntity=result.get(0);
+		if(result.isPresent())
+			theUserEntity=result.get();
 		else
 			throw new RuntimeException("Did not find employee id - "+ theUsername);
 		
 		return theUserEntity;
 	}
 	
-	@Override
-	public User findByPhoneNo(String thePhoneNo) {
-//		
-//		Optional<User> result = userRepository.findByPhoneNo(thePhoneNo);
-//		
-//		User theUserEntity= null;
-//		
-//		if(result.isPresent())
-//			theUserEntity=result.get();
-//		else
-//			throw new RuntimeException("Did not find employee id - "+ thePhoneNo);
-//		
-//		return theUserEntity;
-
-List<User> result = userRepository.findByPhoneNo(thePhoneNo);
-	
-		
-		User theUserEntity= null;
-		System.out.println("Username in the entity service: "+ theUserEntity.getPhoneNo());
-		
-		if(result.get(0) != null)
-			theUserEntity=result.get(0);
-		else
-			throw new RuntimeException("Did not find employee id - "+ thePhoneNo);
-		
-		return theUserEntity;
-	}
+	/*
+	 * @Override public User findByPhoneNo(String thePhoneNo) {
+	 * 
+	 * Optional<User> result = userRepository.findByPhoneNo(thePhoneNo);
+	 * 
+	 * User theUserEntity= null;
+	 * 
+	 * if(result.isPresent()) theUserEntity=result.get(); else throw new
+	 * RuntimeException("Did not find employee id - "+ thePhoneNo);
+	 * 
+	 * return theUserEntity;
+	 * 
+	 * }
+	 */
 	
 	
 }
