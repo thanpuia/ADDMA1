@@ -30,7 +30,6 @@ public class AdminController {
 	private ZonalOfficerService zonalOfficerService;
 	private NotificationService notificationService;
 	private ReportIncidentService reportIncidentService;
-	
 	//private NotificationService notificationService;
 	
 	@Autowired
@@ -74,6 +73,7 @@ public class AdminController {
 		
 		return "admin/admin-relief";
 	}
+	
 	@PostMapping("relief/update")
 	public String reliefUpdate(@RequestParam("reliefId") int theId, Model theModel) {
 		
@@ -116,8 +116,4 @@ public class AdminController {
 		
 		return "redirect:/admin/showIncident";
 	}
-	
-	
-	
-	
 }

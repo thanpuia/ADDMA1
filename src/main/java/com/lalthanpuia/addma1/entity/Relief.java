@@ -59,29 +59,30 @@ public class Relief {
 	String userId;
 	
 	@Column(name="zonal_officer_contact")
-	String zonalOfficerContact;
+	String officerContact;
 	
 	@Column(name="zonal_officer_id")
-	String zonalOfficerId;
+	String officerId;
 	
 	@Column(name="zonal_officer_name")
-	String zonalOfficerName;
+	String officerName;
 	
 	@Column(name="zone_id")
 	String zoneId;
 	
 	@Column(name="zone_name")
-	String zoneName;
+	String officerZone;
 
 
 	public Relief() {
 	}
 
 
-	public Relief(String details, String district, String landmarks, String lat,
-			String lng, String locality, String material, String materialId, String username, String phone,
-			String quantity, String requestOn, String status, String userId, String zonalOfficerContact,
-			String zonalOfficerId, String zonalOfficerName, String zoneId, String zoneName) {
+	public Relief(int serialNumber, String details, String district, String landmarks, String lat, String lng,
+			String locality, String material, String materialId, String username, String phone, String quantity,
+			String requestOn, String status, String userId, String officerContact, String officerId, String officerName,
+			String zoneId, String officerZone) {
+		this.serialNumber = serialNumber;
 		this.details = details;
 		this.district = district;
 		this.landmarks = landmarks;
@@ -96,11 +97,11 @@ public class Relief {
 		this.requestOn = requestOn;
 		this.status = status;
 		this.userId = userId;
-		this.zonalOfficerContact = zonalOfficerContact;
-		this.zonalOfficerId = zonalOfficerId;
-		this.zonalOfficerName = zonalOfficerName;
+		this.officerContact = officerContact;
+		this.officerId = officerId;
+		this.officerName = officerName;
 		this.zoneId = zoneId;
-		this.zoneName = zoneName;
+		this.officerZone = officerZone;
 	}
 
 
@@ -254,33 +255,33 @@ public class Relief {
 	}
 
 
-	public String getZonalOfficerContact() {
-		return zonalOfficerContact;
+	public String getOfficerContact() {
+		return officerContact;
 	}
 
 
-	public void setZonalOfficerContact(String zonalOfficerContact) {
-		this.zonalOfficerContact = zonalOfficerContact;
+	public void setOfficerContact(String officerContact) {
+		this.officerContact = officerContact;
 	}
 
 
-	public String getZonalOfficerId() {
-		return zonalOfficerId;
+	public String getOfficerId() {
+		return officerId;
 	}
 
 
-	public void setZonalOfficerId(String zonalOfficerId) {
-		this.zonalOfficerId = zonalOfficerId;
+	public void setOfficerId(String officerId) {
+		this.officerId = officerId;
 	}
 
 
-	public String getZonalOfficerName() {
-		return zonalOfficerName;
+	public String getOfficerName() {
+		return officerName;
 	}
 
 
-	public void setZonalOfficerName(String zonalOfficerName) {
-		this.zonalOfficerName = zonalOfficerName;
+	public void setOfficerName(String officerName) {
+		this.officerName = officerName;
 	}
 
 
@@ -294,15 +295,16 @@ public class Relief {
 	}
 
 
-	public String getZoneName() {
-		return zoneName;
+	public String getOfficerZone() {
+		return officerZone;
 	}
 
 
-	public void setZoneName(String zoneName) {
-		this.zoneName = zoneName;
+	public void setOfficerZone(String officerZone) {
+		this.officerZone = officerZone;
 	}
-	
+
+
 	
 	
 }

@@ -8,10 +8,11 @@ import com.lalthanpuia.addma1.entity.Officer;
 
 public interface ZonalOfficerRepository extends JpaRepository<Officer, Integer> {
 
-	Optional<Officer> findByDistrict(String theDistrict);
+	Optional<Officer> findByOfficerDistrict(String theDistrict);
 	
-	Optional<Officer> findByZone(String theZone);
+	Optional<Officer> findByOfficerZone(String theZone);
 
+	Optional<Officer> findByOfficerLocality(String theLocality);
 
 
 }

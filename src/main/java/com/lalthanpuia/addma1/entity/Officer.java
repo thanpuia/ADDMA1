@@ -24,60 +24,45 @@ public class Officer {
 	@Column(name="id")
 	int zoneId;
 	
-	@Column(name="contact")
-	String contact;
+	@Column(name="zonal_officer_contact")
+	String officerContact;
 	
 	@Column(name="designation")
-	String designation;
+	String officerDesignation;
 	
 	@Column(name="district")
-	String district;
+	String officerDistrict;
 	
 	@Column (name="email")
-	String email;
+	String officerEmail;
 	
 	@Column (name="zone")
-	String zone;
+	String officerZone;
 	
-	@Column (name="officername")
+	@Column (name="zonal_officer_name")
 	String officerName;
 	
 	@Column (name="officerid")
 	String officerId;
 	
 	@Column (name="locality")
-	String locality;
+	String officerLocality;
 
 	public Officer() {
 	}
 
-	
-
-	public Officer(String contact, String designation, String district, String email, String zone, String officerName,
-			String officerId, String locality) {
-		this.contact = contact;
-		this.designation = designation;
-		this.district = district;
-		this.email = email;
-		this.zone = zone;
+	public Officer(int zoneId, String officerContact, String officerDesignation, String officerDistrict,
+			String officerEmail, String officerZone, String officerName, String officerId, String officerLocality) {
+		this.zoneId = zoneId;
+		this.officerContact = officerContact;
+		this.officerDesignation = officerDesignation;
+		this.officerDistrict = officerDistrict;
+		this.officerEmail = officerEmail;
+		this.officerZone = officerZone;
 		this.officerName = officerName;
 		this.officerId = officerId;
-		this.locality = locality;
+		this.officerLocality = officerLocality;
 	}
-
-
-
-	public String getLocality() {
-		return locality;
-	}
-
-
-
-	public void setLocality(String locality) {
-		this.locality = locality;
-	}
-
-
 
 	public int getZoneId() {
 		return zoneId;
@@ -87,44 +72,44 @@ public class Officer {
 		this.zoneId = zoneId;
 	}
 
-	public String getContact() {
-		return contact;
+	public String getOfficerContact() {
+		return officerContact;
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
+	public void setOfficerContact(String officerContact) {
+		this.officerContact = officerContact;
 	}
 
-	public String getDesignation() {
-		return designation;
+	public String getOfficerDesignation() {
+		return officerDesignation;
 	}
 
-	public void setDesignation(String designation) {
-		this.designation = designation;
+	public void setOfficerDesignation(String officerDesignation) {
+		this.officerDesignation = officerDesignation;
 	}
 
-	public String getDistrict() {
-		return district;
+	public String getOfficerDistrict() {
+		return officerDistrict;
 	}
 
-	public void setDistrict(String district) {
-		this.district = district;
+	public void setOfficerDistrict(String officerDistrict) {
+		this.officerDistrict = officerDistrict;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getOfficerEmail() {
+		return officerEmail;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setOfficerEmail(String officerEmail) {
+		this.officerEmail = officerEmail;
 	}
 
-	public String getZone() {
-		return zone;
+	public String getOfficerZone() {
+		return officerZone;
 	}
 
-	public void setZone(String zone) {
-		this.zone = zone;
+	public void setOfficerZone(String officerZone) {
+		this.officerZone = officerZone;
 	}
 
 	public String getOfficerName() {
@@ -143,7 +128,14 @@ public class Officer {
 		this.officerId = officerId;
 	}
 
-	
+	public String getOfficerLocality() {
+		return officerLocality;
+	}
+
+	public void setOfficerLocality(String officerLocality) {
+		this.officerLocality = officerLocality;
+	}
+
 	
 	
 }

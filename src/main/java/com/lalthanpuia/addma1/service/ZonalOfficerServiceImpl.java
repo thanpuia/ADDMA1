@@ -26,8 +26,8 @@ public class ZonalOfficerServiceImpl implements ZonalOfficerService {
 		return zonalOfficerRepository.findAll();
 	}
 
-	public Officer findByDistrict(String theDistrict) {
-		Optional <Officer> result = zonalOfficerRepository.findByDistrict(theDistrict);
+	public Officer findByOfficerDistrict(String theDistrict) {
+		Optional <Officer> result = zonalOfficerRepository.findByOfficerDistrict(theDistrict);
 		
 		Officer theZonalOfficer =null;
 		
@@ -40,8 +40,8 @@ public class ZonalOfficerServiceImpl implements ZonalOfficerService {
 	}
 
 	@Override
-	public Officer findByZone(String theZone) {
-	Optional <Officer> result = zonalOfficerRepository.findByZone(theZone);
+	public Officer findByOfficerZone(String theZone) {
+	Optional <Officer> result = zonalOfficerRepository.findByOfficerZone(theZone);
 		
 		Officer theZonalOfficer =null;
 		
@@ -52,4 +52,20 @@ public class ZonalOfficerServiceImpl implements ZonalOfficerService {
 		
 		return theZonalOfficer;
 	}
+
+	@Override
+	public Officer findByOfficerLocality(String theLocality) {
+		Optional <Officer> result = zonalOfficerRepository.findByOfficerLocality(theLocality);
+		
+		Officer theZonalOfficer =null;
+		
+		if(result.isPresent())
+			theZonalOfficer = result.get();
+		else
+			throw new RuntimeException ("Did not find-"+theLocality);
+		
+		return theZonalOfficer;
+	}
+
+
 }

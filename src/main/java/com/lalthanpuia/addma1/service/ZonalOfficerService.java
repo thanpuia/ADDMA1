@@ -8,9 +8,10 @@ public interface ZonalOfficerService {
 
 	public List<Officer> findAll();
 	
-	public  Officer findByDistrict(String theDistrict);
-	
-	public  Officer findByZone(String theZone);
+	public  Officer findByOfficerDistrict(String theDistrict);
+	public  Officer findByOfficerLocality(String theLocality);
+
+	public  Officer findByOfficerZone(String theZone);
 
 	
 }

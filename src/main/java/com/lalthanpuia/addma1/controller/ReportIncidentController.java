@@ -59,8 +59,8 @@ public class ReportIncidentController {
 	@GetMapping("/reportIncident")
 	public String reportincidented(Model theModel) {
 		
-		User theUserEntity					 = new User();
-		Incident theReportIncidentEntity = new Incident();
+		User theUserEntity					= new User();
+		Incident theReportIncidentEntity 	= new Incident();
 		theModel.addAttribute("reportIncidentEntity", theReportIncidentEntity);
 		return "/reportIncident";
 		//return "/signUp";
@@ -72,7 +72,6 @@ public class ReportIncidentController {
 		
 		//1. GET THE USER DATA
 			//1.1 GET THE USER NAME
-		
 			String username = "";
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			
@@ -89,11 +88,11 @@ public class ReportIncidentController {
 			String myLocality = theReportIncidentEntity.getLocality();
 		
 			/*
-			HERER WE TAKE THE VALUE OF Locality from reportIncidentEntity.. the value of the Locality is similar to
+			HERE WE TAKE THE VALUE OF Locality from reportIncidentEntity.. the value of the Locality is similar to
 			the zone id in the zonal officer table .. so using the String myLocality we can get the current zonalOfficer below
 			*/
 			//Officer currentZonalOfficer = zonalOfficerService.findByDistrict(myDistrict);
-			Officer currentZonalOfficer = zonalOfficerService.findByZone(myLocality);
+			Officer currentZonalOfficer = zonalOfficerService.findByOfficerZone(myLocality);
 
 			System.out.println("This is the zonal officer:" + currentZonalOfficer);
 			
@@ -109,14 +108,13 @@ public class ReportIncidentController {
 			
 			//2.2 GET THE USER DETAILS FROM THE SMART PHONE
 			
-			
 			//2.3 GET THE ZONAL OFFICER DETAILS FROM THE ZONAL-OFFICER TABLE
 			
-			String officerContact 		= currentZonalOfficer.getContact();
-			String officerDesignation 	= currentZonalOfficer.getDesignation();
-			String officerDistrict		= currentZonalOfficer.getDistrict();
-			String officerEmail			= currentZonalOfficer.getEmail();
-			String officerZone			= currentZonalOfficer.getZone();
+			String officerContact 		= currentZonalOfficer.getOfficerContact();
+			String officerDesignation 	= currentZonalOfficer.getOfficerDesignation();
+			String officerDistrict		= currentZonalOfficer.getOfficerDistrict();
+			String officerEmail			= currentZonalOfficer.getOfficerEmail();
+			String officerZone			= currentZonalOfficer.getOfficerZone();
 			String officerName			= currentZonalOfficer.getOfficerName();
 			String officerId			= currentZonalOfficer.getOfficerId();
 			
@@ -137,11 +135,11 @@ public class ReportIncidentController {
 		
 			//3.3. PUT THE ZONAL OFFICER DETAILS FROM THE ZONAL OFFICER TABLE.
 			// THE ZONAL OFFICER TABLE HAS NOT BEEM CREATED SO FILLED WITH DUMMY VALUE
-			theReportIncidentEntity.setZonalOfficerContact(officerContact);
-			theReportIncidentEntity.setZonalOfficerId(officerId);
-			theReportIncidentEntity.setZonalOfficerName(officerName);
+			theReportIncidentEntity.setOfficerContact(officerContact);
+			theReportIncidentEntity.setOfficerId(officerId);
+			theReportIncidentEntity.setOfficerName(officerName);
 //			//theReportIncidentEntity.setZoneId(zoneIdStr);
-			theReportIncidentEntity.setZoneName(officerZone);
+			theReportIncidentEntity.setOfficerZone(officerZone);
 		
 		//4. GET THE CURRENT TIME	
 			 Calendar cal = Calendar.getInstance();
@@ -159,8 +157,8 @@ public class ReportIncidentController {
 				theUserNotification.setUserSerialNo(mSerialNumber);
 				theUserNotification.setUsername(username);
 				theUserNotification.setSentType("desktop");
-				theUserNotification.setZonalOfficerName(officerName);
-				theUserNotification.setZonalOfficerContact(officerContact);
+				theUserNotification.setOfficerName(officerName);
+				theUserNotification.setOfficerContact(officerContact);
 		
 				
 		
@@ -195,14 +193,14 @@ public class ReportIncidentController {
 			MimeMessageHelper helper=new MimeMessageHelper(message);
 			
 			String subject = 
-					"Report Incident for "+ mReportIncidentEntity.getDetails()+
+					"Report Incident for "+ mReportIncidentEntity.getDisasterType()+
 					" from " + mReportIncidentEntity.getUsername();
 
 			String messageBody = 
 					"TYPE: Report Incident" +"\n" +
-					"Disaster Details: " + mReportIncidentEntity.getDisastersDetails() +"\n "+
+					"Disaster Type: " + mReportIncidentEntity.getDisasterType() +"\n "+
 
-					"Details: " + mReportIncidentEntity.getDetails() +"\n "+
+					"Details: " + mReportIncidentEntity.getDisastersDetails() +"\n "+
 
 
 
@@ -211,8 +209,8 @@ public class ReportIncidentController {
 					"Locality: " 				+ mReportIncidentEntity.getLocality()+"\n "+
 					"Name: " 					+ mReportIncidentEntity.getUsername()+"\n "+
 					"Phone: " 					+ mReportIncidentEntity.getPhone()+"\n "+
-					"Zonal Officer Contact: " 	+ mReportIncidentEntity.getZonalOfficerContact()+"\n "+
-					"Zonal Officer Name: "	 	+ mReportIncidentEntity.getZonalOfficerName() +"\n ";
+					"Zonal Officer Contact: " 	+ mReportIncidentEntity.getOfficerContact()+"\n "+
+					"Zonal Officer Name: "	 	+ mReportIncidentEntity.getOfficerName() +"\n ";
 
 	        try {
 	            helper.setTo("thanpuia46@gmail.com");

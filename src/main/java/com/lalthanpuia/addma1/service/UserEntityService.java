@@ -12,4 +12,6 @@ public interface UserEntityService {
 	public void save(User theUserEntity);
 	
 	public User findByUsername(String theUsername);
+	
+	public User findByPhoneNo(String thePhoneNo);
 }

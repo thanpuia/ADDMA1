@@ -41,17 +41,17 @@ public class UserNotification {
 	String sentType;
 	
 	@Column(name="zonal_officer_name")
-	String zonalOfficerName;
+	String officerName;
 	
 	@Column(name="zonal_officer_contact")
-	String zonalOfficerContact;
+	String officerContact;
 
 	public UserNotification() {
 	}
 
-	public UserNotification(String district, String message, String phone, String photo, String sentTime,
-			String userSerialNo, String username, String sentType, String zonalOfficerName,
-			String zonalOfficerContact) {
+	public UserNotification(int serialNo, String district, String message, String phone, String photo, String sentTime,
+			String userSerialNo, String username, String sentType, String officerName, String officerContact) {
+		this.serialNo = serialNo;
 		this.district = district;
 		this.message = message;
 		this.phone = phone;
@@ -60,8 +60,8 @@ public class UserNotification {
 		this.userSerialNo = userSerialNo;
 		this.username = username;
 		this.sentType = sentType;
-		this.zonalOfficerName = zonalOfficerName;
-		this.zonalOfficerContact = zonalOfficerContact;
+		this.officerName = officerName;
+		this.officerContact = officerContact;
 	}
 
 	public int getSerialNo() {
@@ -136,21 +136,23 @@ public class UserNotification {
 		this.sentType = sentType;
 	}
 
-	public String getZonalOfficerName() {
-		return zonalOfficerName;
+	public String getOfficerName() {
+		return officerName;
 	}
 
-	public void setZonalOfficerName(String zonalOfficerName) {
-		this.zonalOfficerName = zonalOfficerName;
+	public void setOfficerName(String officerName) {
+		this.officerName = officerName;
 	}
 
-	public String getZonalOfficerContact() {
-		return zonalOfficerContact;
+	public String getOfficerContact() {
+		return officerContact;
 	}
 
-	public void setZonalOfficerContact(String zonalOfficerContact) {
-		this.zonalOfficerContact = zonalOfficerContact;
+	public void setOfficerContact(String officerContact) {
+		this.officerContact = officerContact;
 	}
+
+	
 	
 	
 }

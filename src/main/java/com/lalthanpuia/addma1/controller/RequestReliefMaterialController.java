@@ -42,7 +42,7 @@ public class RequestReliefMaterialController {
 	
 	@Autowired
 	private JavaMailSender sender;
-	
+
 	public RequestReliefMaterialController (RequestReliefMaterialService theRequestReliefMaterialService, UserEntityService theUserEntityService, ZonalOfficerService theZonalOfficerService, NotificationService theNotificationRequestReliefService, UserNotificationService theUserNotificationService) {
 		
 		this.requestReliefMaterialService = theRequestReliefMaterialService;
@@ -98,7 +98,7 @@ public class RequestReliefMaterialController {
 				the zone id in the zonal officer table .. so using the String myLocality we can get the current zonalOfficer below
 				*/
 				//Officer currentZonalOfficer = zonalOfficerService.findByDistrict(myDistrict);
-				Officer currentZonalOfficer = zonalOfficerService.findByZone(myLocality);
+				Officer currentZonalOfficer = zonalOfficerService.findByOfficerZone(myLocality);
 				System.out.print("this is the Zonal Officer: "+currentZonalOfficer);
 				
 				
@@ -117,11 +117,11 @@ public class RequestReliefMaterialController {
 				
 				//2.3 GET THE ZONAL OFFICER DETAILS FROM THE ZONALOFFICER TABLE
 			
-				String officerContact = currentZonalOfficer.getContact();
-				String officerDesignation = currentZonalOfficer.getDesignation();
-				String offierDistrict = currentZonalOfficer.getDistrict();
-				String officerEmail = currentZonalOfficer.getEmail();
-				String officerZone = currentZonalOfficer.getZone();
+				String officerContact = currentZonalOfficer.getOfficerContact();
+				String officerDesignation = currentZonalOfficer.getOfficerDesignation();
+				String offierDistrict = currentZonalOfficer.getOfficerDistrict();
+				String officerEmail = currentZonalOfficer.getOfficerEmail();
+				String officerZone = currentZonalOfficer.getOfficerZone();
 				String officerName = currentZonalOfficer.getOfficerName();
 				String officerId = currentZonalOfficer.getOfficerId();
 				
@@ -145,11 +145,11 @@ public class RequestReliefMaterialController {
 				
 				//3.3. PUT THE ZONAL OFFICER DETAILS FROM THE ZONAL OFFICER TABLE.
 				// THE ZONAL OFFICER TABLE HAS NOT BEEM CREATED SO FILLED WITH DUMMY VALUE
-				theRequestReliefMaterialEntity.setZonalOfficerContact(officerContact);
-				theRequestReliefMaterialEntity.setZonalOfficerId(officerId);
-				theRequestReliefMaterialEntity.setZonalOfficerName(officerName);
+				theRequestReliefMaterialEntity.setOfficerContact(officerContact);
+				theRequestReliefMaterialEntity.setOfficerId(officerId);
+				theRequestReliefMaterialEntity.setOfficerName(officerName);
 //				//theRequestReliefMaterialEntity.setZoneId(zoneIdStr);
-				theRequestReliefMaterialEntity.setZoneName(officerZone);
+				theRequestReliefMaterialEntity.setOfficerZone(officerZone);
 				
 				System.out.print(officerContact);
 		
@@ -169,8 +169,8 @@ public class RequestReliefMaterialController {
 				theUserNotification.setUserSerialNo(mSerialNumber);
 				theUserNotification.setUsername(username);
 				theUserNotification.setSentType("desktop");
-				theUserNotification.setZonalOfficerName(officerName);
-				theUserNotification.setZonalOfficerContact(officerContact);
+				theUserNotification.setOfficerName(officerName);
+				theUserNotification.setOfficerContact(officerContact);
 				
 		
 		//SAVE THE USER DATA
@@ -239,7 +239,7 @@ public class RequestReliefMaterialController {
 		MimeMessageHelper helper=new MimeMessageHelper(message);
 		
 		String subject = 
-				"Request Relief for "+ mRequestReliefMaterialEntity.getDetails()+
+				"Request Relief for "+ mRequestReliefMaterialEntity.getMaterial()+
 				" from " + mRequestReliefMaterialEntity.getUsername();
 
 		String messageBody = 
@@ -250,8 +250,8 @@ public class RequestReliefMaterialController {
 				"Quantity: " + mRequestReliefMaterialEntity.getQuantity()+"\n "+
 				"Name: " + mRequestReliefMaterialEntity.getUsername()+"\n "+
 				"Phone: " + mRequestReliefMaterialEntity.getPhone()+"\n "+
-				"Zonal Officer Contact: " + mRequestReliefMaterialEntity.getZonalOfficerContact()+"\n "+
-				"Zonal Officer Name: " + mRequestReliefMaterialEntity.getZonalOfficerName()+"\n ";
+				"Zonal Officer Contact: " + mRequestReliefMaterialEntity.getOfficerContact()+"\n "+
+				"Zonal Officer Name: " + mRequestReliefMaterialEntity.getOfficerName()+"\n ";
 ;
 		
         try {
