@@ -9,8 +9,9 @@ import com.lalthanpuia.addma1.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	Optional<User> findByUsername(String theUsername);	//List<User> findByUsername(String theUsername);
-	
+	//Optional<User> findByUsername(String theUsername);	//List<User> findByUsername(String theUsername);
+	public List<User> findByUsername(String theUsername);	//List<User> findByUsername(String theUsername);
+
 	//	Optional<User> findByPhoneNo(String thePhoneNo);
 	//List<User> findByPhoneNo(String thePhoneNo);
 		

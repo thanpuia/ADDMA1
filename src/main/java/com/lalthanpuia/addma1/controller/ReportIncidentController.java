@@ -81,12 +81,14 @@ public class ReportIncidentController {
 			
 			theModel.addAttribute("username", username);
 			
-			System.out.println(username);
+			System.out.println("Username from controller:"+username);
 			
 			//1.2 GET THE DISTRICT SO THAT WE CAN FETCH THE ZONAL OFFICER
 			String myDistrict = theReportIncidentEntity.getDistrict();
 			String myLocality = theReportIncidentEntity.getLocality();
-		
+			System.out.println("current district:" + myDistrict);
+			System.out.println("current locality:" + myLocality);
+			
 			/*
 			HERE WE TAKE THE VALUE OF Locality from reportIncidentEntity.. the value of the Locality is similar to
 			the zone id in the zonal officer table .. so using the String myLocality we can get the current zonalOfficer below
@@ -178,7 +180,11 @@ public class ReportIncidentController {
 	
 	//GET THE USER DETAILS 
 	public User getUserDetails(String theUsername) {
+		System.out.println("Current user details (extracted) : ");
+
 		User currentUserEntity = userEntityService.findByUsername(theUsername);
+		System.out.println("Current user details (extracted) : "+currentUserEntity.getLocality());
+		
 		return currentUserEntity;
 	}
 	

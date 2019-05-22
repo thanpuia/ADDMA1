@@ -1,3 +1,4 @@
+
 package com.lalthanpuia.addma1.entity;
 
 import javax.persistence.Column;

@@ -183,6 +183,7 @@ public class MyRestController {
 		
 		System.out.println("Username: "+username);
 		System.out.println("Password: "+password);
+		password = "{noop}"+password;
 
 		
 		User mUser = new User();
