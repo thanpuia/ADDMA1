@@ -150,10 +150,35 @@ public class MyRestController {
 	@PostMapping("/post/incident")
 	public String incidentReportInsert(@RequestBody Incident newIncident) {
 		
-		reportIncidentService.save(newIncident);
+		//GET THE ZONAL OFFICER
+		String locality = newIncident.getLocality();
+		System.out.println("Locality: "+ newIncident.getLocality());
+		
+		Officer currentZonalOfficer = zonalOfficerService.findByOfficerLocality(locality);
+		
+		//2.3 GET THE ZONAL OFFICER DETAILS FROM THE ZONALOFFICER TABLE
+				String officerContact = currentZonalOfficer.getOfficerContact();
+				String officerDesignation = currentZonalOfficer.getOfficerDesignation();
+				String offierDistrict = currentZonalOfficer.getOfficerDistrict();
+				String officerEmail = currentZonalOfficer.getOfficerEmail();
+				String officerZone = currentZonalOfficer.getOfficerZone();
+				String officerName = currentZonalOfficer.getOfficerName();
+				String officerId = currentZonalOfficer.getOfficerId();
+				
+				//2.3. PUT THE ZONAL OFFICER DETAILS FROM THE ZONAL OFFICER TABLE.
+				newIncident.setOfficerContact(officerContact);
+				newIncident.setOfficerId(officerId);
+				newIncident.setOfficerName(officerName);
+				//newIncident.setZoneId(zoneIdStr);
+				newIncident.setOfficerZone(officerZone);		
 		
 		//sent to mail
 		incidentSendMail(newIncident);
+		
+
+		//UPLOAD TO INCIDENT REPORT TABLE
+		reportIncidentService.save(newIncident);
+
 		return "save";
 	}
 	
