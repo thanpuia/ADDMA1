@@ -13,5 +13,7 @@ public interface UserEntityService {
 	
 	public User findByUsername(String theUsername);
 	
+	public User findByPhoneNo (String thePhoneNo);
+	
 	//public User findByPhoneNo(String thePhoneNo);
 }

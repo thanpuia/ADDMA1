@@ -45,7 +45,6 @@ public class MyRestController {
 		
 		this.reportIncidentService = theReportIncidentService;
 		this.requestReliefMaterialService = theRequestReliefMaterialService;
-
 		this.userEntityService = theUserEntityService;
 		this.zonalOfficerService = theZonalOfficerService; 
 		this.notificationRequestReliefService = theNotificationRequestReliefService;
@@ -114,11 +113,36 @@ public class MyRestController {
 	@PostMapping("/post/relief")
 	public String requestReliefInsert(@RequestBody Relief newRelief) {
 		
-		requestReliefMaterialService.save(newRelief);
-		System.out.println("Checking post relief: "+newRelief.getMaterial());
+		//GET THE ZONAL OFFICER
+		String locality = newRelief.getLocality();
+		System.out.println("Locality: "+ newRelief.getLocality());
+
+		Officer currentZonalOfficer = zonalOfficerService.findByOfficerLocality(locality);
+		//int zone = searchZonalOfficer(locality);
+		
+		//2.3 GET THE ZONAL OFFICER DETAILS FROM THE ZONALOFFICER TABLE
+		String officerContact = currentZonalOfficer.getOfficerContact();
+		String officerDesignation = currentZonalOfficer.getOfficerDesignation();
+		String offierDistrict = currentZonalOfficer.getOfficerDistrict();
+		String officerEmail = currentZonalOfficer.getOfficerEmail();
+		String officerZone = currentZonalOfficer.getOfficerZone();
+		String officerName = currentZonalOfficer.getOfficerName();
+		String officerId = currentZonalOfficer.getOfficerId();
+		
+		//2.3. PUT THE ZONAL OFFICER DETAILS FROM THE ZONAL OFFICER TABLE.
+		newRelief.setOfficerContact(officerContact);
+		newRelief.setOfficerId(officerId);
+		newRelief.setOfficerName(officerName);
+		//theRequestReliefMaterialEntity.setZoneId(zoneIdStr);
+		newRelief.setOfficerZone(officerZone);		
 		
 		//sent to mail
 		reliefSendMail(newRelief);
+		
+		//Upload to REQUEST RELIEF TABLE
+		requestReliefMaterialService.save(newRelief);
+		System.out.println("Checking post relief: "+newRelief.getMaterial());
+		
 		return "save";
 	}
 	
@@ -134,8 +158,8 @@ public class MyRestController {
 	}
 	
 	// AUTHENTICATION LOGIN
-	@GetMapping("/test/{username}/{password}")
-	public User login(@PathVariable String username, @PathVariable String password) {
+	@GetMapping("/test/{phoneNo}/{password}")
+	public User login(@PathVariable String phoneNo, @PathVariable String password) {
 
 		//mUser = new User();
 
@@ -144,8 +168,7 @@ public class MyRestController {
 //		//the noop cannot be added in the client side so it must be here
 //		password =password;
 //		System.out.println("Password: "+ password);
-//
-//		
+
 //		//try {
 //			//User mUser = new User();
 //			System.out.println("1");
@@ -181,16 +204,17 @@ public class MyRestController {
 //		System.out.println("User otsi:"+mUser.getUsername());
 //	    return mUser;
 		
-		System.out.println("Username: "+username);
+		System.out.println("Phone Number: "+phoneNo);
 		System.out.println("Password: "+password);
 		password = "{noop}"+password;
 
 		
 		User mUser = new User();
 		try {
-			mUser = userEntityService.findByUsername(username);
+			//mUser = userEntityService.findByUsername(phoneNo);
+			mUser = userEntityService.findByPhoneNo(phoneNo);
 			String mPassword = mUser.getPassword();	
-			System.out.println("Real userpassowr: "+mPassword);
+			System.out.println("Real userpassowr: "+mPassword+" "+ mUser.getAltContactName());
 			if(mPassword.equals(password)) {
 			}else {
 				mUser = null;
@@ -208,20 +232,17 @@ public class MyRestController {
 	  }
 
 	
-	// GET THE ZONAL OFFICER
-	@GetMapping("/test/{locality}")
-	public Officer zoneOfficer(@PathVariable String locality) {
-		
-		Officer mOfficer = new Officer();
-		
-		try {
-			mOfficer = zonalOfficerService.findByOfficerLocality(locality);
-		}catch(Exception e) {
-			mOfficer = null;
-			return mOfficer;
-		}
-		return mOfficer;
-	}
+	/*
+	 * // GET THE ZONAL OFFICER
+	 * 
+	 * @GetMapping("/test/{locality}") public Officer zoneOfficer(@PathVariable
+	 * String locality) {
+	 * 
+	 * Officer mOfficer = new Officer();
+	 * 
+	 * try { mOfficer = zonalOfficerService.findByOfficerLocality(locality);
+	 * }catch(Exception e) { mOfficer = null; return mOfficer; } return mOfficer; }
+	 */
 	
 	
 	//FOR REST RELIEF SENDING MAIL
@@ -305,5 +326,38 @@ public class MyRestController {
 			}
 			
 			
+		//GET THE ZONAL OFFICER
+		public int searchZonalOfficer(String locality) {
+			
+			int zone =0;
+			if(locality.equals("Chaltlang") || locality.equals("null") ||locality.equals("Durtlang") || locality.equals("Durtlang Leitan") ||locality.equals("Durtlang North") || locality.equals("Selesih") ||locality.equals("Chanmari West") || locality.equals("Edenthar") || locality.equals("Chaltlang Lily Veng")) {
+				//zone 1
+				zone = 1;
+			} else if(locality.equals("Bawngkawn") || locality.equals("Thuampui") ||locality.equals("Zuangtui") || locality.equals("Muanna Veng") ||locality.equals("Bawngkawn South") || locality.equals("Zemabawk") ||locality.equals("Zemabawk North") || locality.equals("Falkland")) {
+				//zone 2
+				zone = 2;
+			}else if(locality.equals("Electric Veng") || locality.equals("Ramhlun") ||locality.equals("Ramhlun Sport Complex") || locality.equals("Ramhlun South") ||locality.equals("Ramhlun North") || locality.equals("Ramhlun Vengthar") ||locality.equals("Ramhlun Venglai") || locality.equals("Ramthar") ) {
+				//zone 3
+				zone = 3;
+			}else if(locality.equals("Tuithiang") || locality.equals("Chhinga Veng") ||locality.equals("Zarkawt") || locality.equals("Dawrpui") ||locality.equals("Chanmari West") || locality.equals("Saron Veng") ||locality.equals("Armed Veng") || locality.equals("Armed Veng South") || locality.equals("Chite")) {
+				//zone 4
+				zone = 4;
+			}else if(locality.equals("Tuikual South") || locality.equals("Tuikual North") ||locality.equals("Dinthar") || locality.equals("Dawrpui Vengthar") ||locality.equals("Chawnpui") || locality.equals("Kanan") ||locality.equals("Zotlang") || locality.equals("Hunthar") || locality.equals("Vaivakawn")) {
+				//zone 5
+				zone = 5;
+			}else if(locality.equals("Rangvamual") || locality.equals("Phunchawng") ||locality.equals("Tuivamit") || locality.equals("Sakawrtuichhun") ||locality.equals("Chawlhhmun") || locality.equals("Luangmual") ||locality.equals("Tanhril") || locality.equals("Govt Complex") || locality.equals("Zonuam")) {
+				//zone 6
+				zone = 6;
+			}else if(locality.equals("Upper Republic") || locality.equals("Republic") ||locality.equals("Republic Vengthlang") || locality.equals("Venghlui") ||locality.equals("College Veng") || locality.equals("Bethlehem") ||locality.equals("Bethlehem Vengthlang") || locality.equals("ITI Veng") ) {
+				//zone 7
+				zone = 7;
+			}else if(locality.equals("Bungkawn Vengthar") || locality.equals("Maubawk") ||locality.equals("Bungkawn") || locality.equals("Khatla") ||locality.equals("Khatla South") || locality.equals("Khatla East") ||locality.equals("Nursery Veng") || locality.equals("Lawipu") || locality.equals("New Secretariat Complex")) {
+				//zone 8
+				zone = 8;
+			}
+			return zone;
+				
+				
+		}
 		
 }

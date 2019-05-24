@@ -69,6 +69,17 @@ public class UserEntityServiceImpl implements UserEntityService {
 		return result.get(0);
 	}
 	
+	@Override
+	public User findByPhoneNo(String thePhoneNo) {
+
+		List<User> result = null;
+		try{
+			result = userRepository.findByPhoneNo(thePhoneNo);	
+		}catch(Exception e) {	}
+	
+		return result.get(0);
+	}
+	
 	/*
 	 * @Override public User findByPhoneNo(String thePhoneNo) {
 	 * 
