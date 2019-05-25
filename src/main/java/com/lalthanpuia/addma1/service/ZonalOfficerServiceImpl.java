@@ -20,7 +20,7 @@ public class ZonalOfficerServiceImpl implements ZonalOfficerService {
 		zonalOfficerRepository = theZonalOfficerRepository;
 	}
 
-	@Override
+	//@Override
 	public List<Officer> findAll() {
 		// TODO Auto-generated method stub
 		return zonalOfficerRepository.findAll();
@@ -39,7 +39,7 @@ public class ZonalOfficerServiceImpl implements ZonalOfficerService {
 		return theZonalOfficer;
 	}
 
-	@Override
+	//@Override
 	public Officer findByOfficerZone(String theZone) {
 	Optional <Officer> result = zonalOfficerRepository.findByOfficerZone(theZone);
 		
@@ -53,7 +53,7 @@ public class ZonalOfficerServiceImpl implements ZonalOfficerService {
 		return theZonalOfficer;
 	}
 
-	@Override
+	//@Override
 	public Officer findByOfficerLocality(String theLocality) {
 		Optional <Officer> result = zonalOfficerRepository.findByOfficerLocality(theLocality);
 		

@@ -19,18 +19,18 @@ public class UserEntityServiceImpl implements UserEntityService {
 		userRepository = theUserRepository;
 	}
 	
-	@Override
+	//@Override
 	public List<User> findAll() {
 			return userRepository.findAll();
 	}
 
-	@Override
+	//@Override
 	public void save(User theUserEntity) {
 		userRepository.save(theUserEntity);
 		
 	}
 
-	@Override
+	//@Override
 	public User findByUsername(String theUsername) {
 		
 //		Optional<User> result = userRepository.findByUsername(theUsername);
@@ -69,7 +69,7 @@ public class UserEntityServiceImpl implements UserEntityService {
 		return result.get(0);
 	}
 	
-	@Override
+//	@Override
 	public User findByPhoneNo(String thePhoneNo) {
 
 		List<User> result = null;

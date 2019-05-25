@@ -25,11 +25,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.lalthanpuia.addma1.entity.User;
 import com.lalthanpuia.addma1.service.UserEntityService;
 
+
 @Controller
 public class UserController {
 
 	private UserEntityService userEntityService;
-
+	
 	@Autowired
 	private JavaMailSender sender;
 	
@@ -38,6 +39,11 @@ public class UserController {
 		this.userEntityService = theUserEntityService;
 	}
 	
+	@GetMapping("/sms")
+	public String sendSMS() {
+		
+		return "SMS";
+	}
 	@GetMapping("/userDetails")
 	public String listUserDetails(Model theModel) {
 		

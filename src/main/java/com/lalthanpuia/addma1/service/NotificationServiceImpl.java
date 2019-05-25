@@ -19,7 +19,7 @@ public class NotificationServiceImpl implements NotificationService {
 		notificationRepository = theNotificationRepository;
 	}
 
-	@Override
+	//@Override
 	public List<Notification> findAll() {
 		return notificationRepository.findAll();
 	}

@@ -19,12 +19,12 @@ public class ReportIncidentServiceImpl implements ReportIncidentService {
 		reportIncidentRepository = theReportIncidentRepository;
 	}
 	
-	@Override
+	//@Override
 	public List<Incident> findAll() {
 		return reportIncidentRepository.findAll();
 	}
 
-	@Override
+	//@Override
 	public Incident findById(int theId) {
 Optional<Incident> result = reportIncidentRepository.findById(theId);
 		
@@ -37,13 +37,13 @@ Incident theReportIncidentEntity = null;
 		return theReportIncidentEntity;
 	}
 
-	@Override
+	//@Override
 	public void save(Incident theReportIncidentEntity) {
 
 		reportIncidentRepository.save(theReportIncidentEntity);
 	}
 
-	@Override
+//	@Override
 	public void deleteById(int theId) {
 		
 		reportIncidentRepository.deleteById(theId);

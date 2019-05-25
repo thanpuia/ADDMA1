@@ -19,13 +19,13 @@ public class RequestReliefMaterialServiceImpl implements RequestReliefMaterialSe
 		requestReliefMaterialRepository = theRequestReliefMaterialRepository;
 	}
 	
-	@Override
+	//@Override
 	public List<Relief> findAll() {
 
 		return requestReliefMaterialRepository.findAll();
 	}
 
-	@Override
+	//@Override
 	public Relief findById(int theId) {
 		
 		Optional<Relief> result = requestReliefMaterialRepository.findById(theId);
@@ -40,12 +40,12 @@ public class RequestReliefMaterialServiceImpl implements RequestReliefMaterialSe
 		return theRequestReliefMaterialEntity;
 	}
 
-	@Override
+//	@Override
 	public void save(Relief theRequestReliefMaterialEntity) {
 		requestReliefMaterialRepository.save(theRequestReliefMaterialEntity);
 	}
 
-	@Override
+	//@Override
 	public void deleteById(int theId) {
 		requestReliefMaterialRepository.deleteById(theId);		
 	}
