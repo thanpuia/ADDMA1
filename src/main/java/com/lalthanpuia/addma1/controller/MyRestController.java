@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.lalthanpuia.addma1.entity.Incident;
 import com.lalthanpuia.addma1.entity.Officer;
@@ -139,8 +140,14 @@ public class MyRestController {
 		// theRequestReliefMaterialEntity.setZoneId(zoneIdStr);
 		newRelief.setOfficerZone(officerZone);
 
+
+		//sent sms to zonal officer
+		smsRelief();
+		
 		// sent to mail
 		reliefSendMail(newRelief);
+		
+	
 
 		// Upload to REQUEST RELIEF TABLE
 		requestReliefMaterialService.save(newRelief);
@@ -175,8 +182,13 @@ public class MyRestController {
 		// newIncident.setZoneId(zoneIdStr);
 		newIncident.setOfficerZone(officerZone);
 
+		//sent sms to zonal officer
+		smsIncident();
+		
 		// sent to mail
 		incidentSendMail(newIncident);
+		
+	
 
 		// UPLOAD TO INCIDENT REPORT TABLE
 		reportIncidentService.save(newIncident);
@@ -409,5 +421,36 @@ public class MyRestController {
 		return zone;
 
 	}
+	
+	//SMS FOR REQUEST RELIEF
+	public void smsRelief() {
+	    final String uri = "https://instantalerts.co/api/web/send?apikey=6n7h4wv5yte7t87qxp4vmrfh96tu0el7&sender=SEDEMO&to=7810911046&message=Hi%2C+this+is+a+reliefRequest";
 
+	    RestTemplate restTemplate = new RestTemplate();
+	    String result = restTemplate.getForObject(uri, String.class);
+
+	    System.out.println(result);
+	}
+
+	//SMS FOR REQUEST RELIEF
+	public void smsIncident() {
+	    final String uri = "https://instantalerts.co/api/web/send?apikey=6n7h4wv5yte7t87qxp4vmrfh96tu0el7&sender=SEDEMO&to=7810911046&message=Hi%2C+this+is+a+IncidentReport";
+
+	    RestTemplate restTemplate = new RestTemplate();
+	    String result = restTemplate.getForObject(uri, String.class);
+
+	    System.out.println(result);
+	}
 }
+
+
+//
+//2019-05-27 09:22:34.330 ERROR 1781 --- [nio-8080-exec-4] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.mail.MailSendException: Mail server connection failed; nested exception is com.sun.mail.util.MailConnectException: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 5000;
+//  nested exception is:
+//	java.net.ConnectException: No route to host (connect failed). Failed messages: com.sun.mail.util.MailConnectException: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 5000;
+//  nested exception is:
+//	java.net.ConnectException: No route to host (connect failed); message exceptions (1) are:
+//Failed message 1: com.sun.mail.util.MailConnectException: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 5000;
+//  nested exception is:
+//	java.net.ConnectException: No route to host (connect failed)] with root cause
+
