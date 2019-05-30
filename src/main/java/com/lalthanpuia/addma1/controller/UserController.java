@@ -1,13 +1,20 @@
 package com.lalthanpuia.addma1.controller;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
@@ -23,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.lalthanpuia.addma1.entity.User;
+import com.lalthanpuia.addma1.notification.AndroidPushNotificationsService;
 import com.lalthanpuia.addma1.service.UserEntityService;
 
 
@@ -30,6 +38,10 @@ import com.lalthanpuia.addma1.service.UserEntityService;
 public class UserController {
 
 	private UserEntityService userEntityService;
+	private final String TOPIC = "7810911046";//this should be unique for every on. as soon as it get the call, it should fetch dynamicall.
+	  
+	@Autowired
+	AndroidPushNotificationsService androidPushNotificationsService;
 	
 	@Autowired
 	private JavaMailSender sender;
@@ -177,6 +189,57 @@ public class UserController {
 	    return "redirect:/login?logout";
 	}
 	
+	
+	 @RequestMapping(value = "/send", method = RequestMethod.GET, produces = "application/json")
+	  public ResponseEntity<String> send() throws JSONException {
+	 
+	    JSONObject body = new JSONObject();
+	    body.put("to", "/topics/" + TOPIC);
+	    body.put("priority", "high");
+	 
+	    JSONObject notification = new JSONObject();
+	    notification.put("title", "JSA Notification");
+	    notification.put("body", "Happy Message!");
+	    
+	    JSONObject data = new JSONObject();
+	    data.put("Key-1", "JSA Data 1");
+	    data.put("Key-2", "JSA Data 2");
+	 
+	    body.put("notification", notification);
+	    body.put("data", data);
+	 
+	/**
+	    {
+	       "notification": {
+	          "title": "JSA Notification",
+	          "body": "Happy Message!"
+	       },
+	       "data": {
+	          "Key-1": "JSA Data 1",
+	          "Key-2": "JSA Data 2"
+	       },
+	       "to": "/topics/JavaSampleApproach",
+	       "priority": "high"
+	    }
+	*/
+	 
+	    HttpEntity<String> request = new HttpEntity<String>(body.toString());
+	 
+	    CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
+	    CompletableFuture.allOf(pushNotification).join();
+	 
+	    try {
+	      String firebaseResponse = pushNotification.get();
+	      
+	      return new ResponseEntity<String>(firebaseResponse, HttpStatus.OK);
+	    } catch (InterruptedException e) {
+	      e.printStackTrace();
+	    } catch (ExecutionException e) {
+	      e.printStackTrace();
+	    }
+	 
+	    return new ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
+	  }
 //	
 //	@GetMapping("/phoneAuth")
 //	public String showIndex() {
