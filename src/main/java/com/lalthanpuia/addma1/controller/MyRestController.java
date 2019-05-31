@@ -1,11 +1,18 @@
 package com.lalthanpuia.addma1.controller;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +28,7 @@ import com.lalthanpuia.addma1.entity.Incident;
 import com.lalthanpuia.addma1.entity.Officer;
 import com.lalthanpuia.addma1.entity.Relief;
 import com.lalthanpuia.addma1.entity.User;
+import com.lalthanpuia.addma1.notification.AndroidPushNotificationsService;
 import com.lalthanpuia.addma1.service.NotificationService;
 import com.lalthanpuia.addma1.service.ReportIncidentService;
 import com.lalthanpuia.addma1.service.RequestReliefMaterialService;
@@ -41,6 +50,12 @@ public class MyRestController {
 
 	@Autowired
 	private JavaMailSender sender;
+	
+	@Autowired
+	AndroidPushNotificationsService androidPushNotificationsService;
+	
+	public String TOPIC = "7810911046";//this should be unique for every on. as soon as it get the call, it should fetch dynamicall.
+
 
 	public MyRestController(ReportIncidentService theReportIncidentService,
 			RequestReliefMaterialService theRequestReliefMaterialService, UserEntityService theUserEntityService,
@@ -183,10 +198,14 @@ public class MyRestController {
 		newIncident.setOfficerZone(officerZone);
 
 		//sent sms to zonal officer
-		smsIncident();
+//		smsIncident();
 		
 		// sent to mail
 		incidentSendMail(newIncident);
+		
+		// sent to client user android notification
+		System.out.println("First function: "+newIncident.getUsername());
+		send(newIncident);
 		
 	
 
@@ -441,6 +460,196 @@ public class MyRestController {
 
 	    System.out.println(result);
 	}
+	
+	//SENDING CLIENT NOTIFICATION THROUGH FIREBASE CLOUD MESSAGE (FCM)
+//	@RequestMapping(value = "/sendd", method = RequestMethod.GET, produces = "application/json")
+//	public ResponseEntity<String> send() throws JSONException {
+//		
+//		//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
+////		String disasterType = mIncident.getDisasterType();
+////		String locality = mIncident.getLocality();
+////		String landmarks = mIncident.getLandmarks();
+////		String details = mIncident.getDetails();
+////		String district = mIncident.getDistrict();
+////		String inLocation = mIncident.getInLocation();
+////		String lat = mIncident.getLat();
+////		String lng = mIncident.getLng();
+////		String location = mIncident.getLocation();
+////		String username = mIncident.getUsername();
+////		String phone = mIncident.getPhone();
+////		String reportOn =mIncident.getReportOn();
+////		String status =mIncident.getStatus();
+////		String userId = mIncident.getUserId();
+////		String officerContact = mIncident.getOfficerContact();
+////		String officerName = mIncident.getOfficerName();
+////		String officerZone = mIncident.getOfficerZone();
+////		String zoneId = mIncident.getZoneId();
+////		String officerId = mIncident.getOfficerId();
+//
+//		//CHANGE THE TOPIC SO THAT ONLY ONE CLIENT GET THE NOTIFICATION IT DESERVE
+//		TOPIC = "7810911046";//phone;	
+//		
+//		JSONObject body = new JSONObject();
+//		body.put("to","/topics"+TOPIC);
+//		body.put("priority","high");
+//		
+//		JSONObject notification = new JSONObject();
+//		notification.put("title","JSA Notify");
+//		notification.put("body","Happy Friday");
+//		
+//		
+//		//INSERT THE DATA OF THE CLIENT NOTIFICATION
+//		JSONObject data = new JSONObject();
+//		data.put("key1","DATA1");
+//		data.put("key2","DATA2");
+//		
+////		data.put("disasterType",disasterType);
+////		data.put("locality",locality);
+////		data.put("landmarks",landmarks);
+////		data.put("details",details);
+////		data.put("district",district);
+////		data.put("inLocation",inLocation);
+////		data.put("lat",lat);
+////		data.put("lng",lng);
+////		data.put("location",location);
+////		data.put("username",username);
+////		data.put("phone",phone);
+////		data.put("reportOn",reportOn);
+////		data.put("status",status);
+////		data.put("userId",userId);
+////		data.put("officerContact",officerContact);
+////		data.put("officerName",officerName);
+////		data.put("officerZone",officerZone);
+////		data.put("zoneId",zoneId);
+////		data.put("officerId",officerId);
+//
+//		body.put("notification", notification);
+//		body.put("data", data);
+//		
+//		HttpEntity<String> request = new HttpEntity<String>(body.toString());
+//		
+//		CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
+//		CompletableFuture.allOf(pushNotification).join();
+//		
+//		
+//	    System.out.println("inside FCM");
+//
+//		try {
+//		    System.out.println("inside FCM try block");
+//
+//			String firebaseResponse = pushNotification.get();
+//			return new ResponseEntity<String>(firebaseResponse, HttpStatus.OK);
+//		}catch (InterruptedException e) {
+//		    System.out.println("inside FCM catch");
+//			e.printStackTrace();
+//		}catch (ExecutionException e) {
+//		    System.out.println("inside FCM catch");
+//			e.printStackTrace();
+//		}
+//		
+//		return new ResponseEntity<String> ("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
+//	}
+	
+	 @RequestMapping(value = "/sendd", method = RequestMethod.GET, produces = "application/json")
+	  public ResponseEntity<String> send(Incident mIncident) throws JSONException {
+			System.out.println("First function: "+mIncident.getUsername());
+
+			//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
+		String disasterType = mIncident.getDisasterType();
+		String locality = mIncident.getLocality();
+		String landmarks = mIncident.getLandmarks();
+		String details = mIncident.getDetails();
+		String district = mIncident.getDistrict();
+		String inLocation = mIncident.getInLocation();
+		String lat = mIncident.getLat();
+		String lng = mIncident.getLng();
+		String location = mIncident.getLocation();
+		String username = mIncident.getUsername();
+		String phone = mIncident.getPhone();
+		String reportOn =mIncident.getReportOn();
+		String status =mIncident.getStatus();
+		String userId = mIncident.getUserId();
+		String officerContact = mIncident.getOfficerContact();
+		String officerName = mIncident.getOfficerName();
+		String officerZone = mIncident.getOfficerZone();
+		String zoneId = mIncident.getZoneId();
+		String officerId = mIncident.getOfficerId();
+		
+		
+	    JSONObject body = new JSONObject();
+	    body.put("to", "/topics/" + TOPIC);
+	    body.put("priority", "high");
+	 
+	    JSONObject notification = new JSONObject();
+	    notification.put("title", "JSA Notification");
+	    notification.put("body", "Happy Message!");
+	    
+	    JSONObject data = new JSONObject();
+	    data.put("Key-1", "JSA Data 1");
+	    data.put("Key-2", "JSA Data 2");
+	    
+	    data.put("disasterType",disasterType);
+	data.put("locality",locality);
+	data.put("landmarks",landmarks);
+	data.put("details",details);
+	data.put("district",district);
+	data.put("inLocation",inLocation);
+	data.put("lat",lat);
+	data.put("lng",lng);
+	data.put("location",location);
+	data.put("username",username);
+	data.put("phone",phone);
+	data.put("reportOn",reportOn);
+	data.put("status",status);
+	data.put("userId",userId);
+	data.put("officerContact",officerContact);
+	data.put("officerName",officerName);
+	data.put("officerZone",officerZone);
+	data.put("zoneId",zoneId);
+	data.put("officerId",officerId);
+System.out.println(phone);
+	 
+	    body.put("notification", notification);
+	    body.put("data", data);
+	 
+	/**
+	    {
+	       "notification": {
+	          "title": "JSA Notification",
+	          "body": "Happy Message!"
+	       },
+	       "data": {
+	          "Key-1": "JSA Data 1",
+	          "Key-2": "JSA Data 2"
+	       },
+	       "to": "/topics/JavaSampleApproach",
+	       "priority": "high"
+	    }
+	*/
+	 
+	    HttpEntity<String> request = new HttpEntity<String>(body.toString());
+	 
+	    CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
+	    CompletableFuture.allOf(pushNotification).join();
+	 
+	    System.out.println("inside FCM");
+	    try {
+	      String firebaseResponse = pushNotification.get();
+		    System.out.println("inside FCM try block");
+
+	      return new ResponseEntity<String>(firebaseResponse, HttpStatus.OK);
+	    } catch (InterruptedException e) {
+		    System.out.println("inside FCM catch");
+
+	      e.printStackTrace();
+	    } catch (ExecutionException e) {
+		    System.out.println("inside FCM catch");
+
+	      e.printStackTrace();
+	    }
+	 
+	    return new ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
+	  }
 }
 
 

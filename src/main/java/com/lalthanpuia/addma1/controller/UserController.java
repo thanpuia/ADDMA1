@@ -228,13 +228,19 @@ public class UserController {
 	    CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
 	    CompletableFuture.allOf(pushNotification).join();
 	 
+	    System.out.println("inside FCM");
 	    try {
 	      String firebaseResponse = pushNotification.get();
-	      
+		    System.out.println("inside FCM try block");
+
 	      return new ResponseEntity<String>(firebaseResponse, HttpStatus.OK);
 	    } catch (InterruptedException e) {
+		    System.out.println("inside FCM catch");
+
 	      e.printStackTrace();
 	    } catch (ExecutionException e) {
+		    System.out.println("inside FCM catch");
+
 	      e.printStackTrace();
 	    }
 	 
