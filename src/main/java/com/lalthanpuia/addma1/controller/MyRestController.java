@@ -156,6 +156,9 @@ public class MyRestController {
 		newRelief.setOfficerZone(officerZone);
 
 
+		
+		
+		
 		//sent sms to zonal officer
 		smsRelief();
 		
@@ -198,7 +201,7 @@ public class MyRestController {
 		newIncident.setOfficerZone(officerZone);
 
 		//sent sms to zonal officer
-//		smsIncident();
+		//smsIncident();
 		
 		// sent to mail
 		incidentSendMail(newIncident);
@@ -207,6 +210,12 @@ public class MyRestController {
 		System.out.println("First function: "+newIncident.getUsername());
 		send(newIncident);
 		
+		//GET ALL THE REPROT OF A THIS USER ONLY (INDIVIDUAL POST)
+		
+		List<Incident> theUserIncident = (List<Incident>) reportIncidentService.findByPhone(newIncident.getPhone());
+				
+				
+		System.out.println("This is life"+theUserIncident.get(0));	
 	
 
 		// UPLOAD TO INCIDENT REPORT TABLE
@@ -388,58 +397,7 @@ public class MyRestController {
 		return "Mail Sent Success!";
 	}
 
-	// GET THE ZONAL OFFICER
-	public int searchZonalOfficer(String locality) {
-
-		int zone = 0;
-		if (locality.equals("Chaltlang") || locality.equals("null") || locality.equals("Durtlang")
-				|| locality.equals("Durtlang Leitan") || locality.equals("Durtlang North") || locality.equals("Selesih")
-				|| locality.equals("Chanmari West") || locality.equals("Edenthar")
-				|| locality.equals("Chaltlang Lily Veng")) {
-			// zone 1
-			zone = 1;
-		} else if (locality.equals("Bawngkawn") || locality.equals("Thuampui") || locality.equals("Zuangtui")
-				|| locality.equals("Muanna Veng") || locality.equals("Bawngkawn South") || locality.equals("Zemabawk")
-				|| locality.equals("Zemabawk North") || locality.equals("Falkland")) {
-			// zone 2
-			zone = 2;
-		} else if (locality.equals("Electric Veng") || locality.equals("Ramhlun")
-				|| locality.equals("Ramhlun Sport Complex") || locality.equals("Ramhlun South")
-				|| locality.equals("Ramhlun North") || locality.equals("Ramhlun Vengthar")
-				|| locality.equals("Ramhlun Venglai") || locality.equals("Ramthar")) {
-			// zone 3
-			zone = 3;
-		} else if (locality.equals("Tuithiang") || locality.equals("Chhinga Veng") || locality.equals("Zarkawt")
-				|| locality.equals("Dawrpui") || locality.equals("Chanmari West") || locality.equals("Saron Veng")
-				|| locality.equals("Armed Veng") || locality.equals("Armed Veng South") || locality.equals("Chite")) {
-			// zone 4
-			zone = 4;
-		} else if (locality.equals("Tuikual South") || locality.equals("Tuikual North") || locality.equals("Dinthar")
-				|| locality.equals("Dawrpui Vengthar") || locality.equals("Chawnpui") || locality.equals("Kanan")
-				|| locality.equals("Zotlang") || locality.equals("Hunthar") || locality.equals("Vaivakawn")) {
-			// zone 5
-			zone = 5;
-		} else if (locality.equals("Rangvamual") || locality.equals("Phunchawng") || locality.equals("Tuivamit")
-				|| locality.equals("Sakawrtuichhun") || locality.equals("Chawlhhmun") || locality.equals("Luangmual")
-				|| locality.equals("Tanhril") || locality.equals("Govt Complex") || locality.equals("Zonuam")) {
-			// zone 6
-			zone = 6;
-		} else if (locality.equals("Upper Republic") || locality.equals("Republic")
-				|| locality.equals("Republic Vengthlang") || locality.equals("Venghlui")
-				|| locality.equals("College Veng") || locality.equals("Bethlehem")
-				|| locality.equals("Bethlehem Vengthlang") || locality.equals("ITI Veng")) {
-			// zone 7
-			zone = 7;
-		} else if (locality.equals("Bungkawn Vengthar") || locality.equals("Maubawk") || locality.equals("Bungkawn")
-				|| locality.equals("Khatla") || locality.equals("Khatla South") || locality.equals("Khatla East")
-				|| locality.equals("Nursery Veng") || locality.equals("Lawipu")
-				|| locality.equals("New Secretariat Complex")) {
-			// zone 8
-			zone = 8;
-		}
-		return zone;
-
-	}
+	
 	
 	//SMS FOR REQUEST RELIEF
 	public void smsRelief() {
@@ -554,7 +512,7 @@ public class MyRestController {
 	  public ResponseEntity<String> send(Incident mIncident) throws JSONException {
 			System.out.println("First function: "+mIncident.getUsername());
 
-			//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
+		//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
 		String disasterType = mIncident.getDisasterType();
 		String locality = mIncident.getLocality();
 		String landmarks = mIncident.getLandmarks();
@@ -589,29 +547,31 @@ public class MyRestController {
 	    data.put("Key-2", "JSA Data 2");
 	    
 	    data.put("disasterType",disasterType);
-	data.put("locality",locality);
-	data.put("landmarks",landmarks);
-	data.put("details",details);
-	data.put("district",district);
-	data.put("inLocation",inLocation);
-	data.put("lat",lat);
-	data.put("lng",lng);
-	data.put("location",location);
-	data.put("username",username);
-	data.put("phone",phone);
-	data.put("reportOn",reportOn);
-	data.put("status",status);
-	data.put("userId",userId);
-	data.put("officerContact",officerContact);
-	data.put("officerName",officerName);
-	data.put("officerZone",officerZone);
-	data.put("zoneId",zoneId);
-	data.put("officerId",officerId);
-System.out.println(phone);
-	 
+	    data.put("locality",locality);
+	    data.put("landmarks",landmarks);
+	    data.put("details",details);
+	    data.put("district",district);
+		data.put("inLocation",inLocation);
+		data.put("lat",lat);
+		data.put("lng",lng);
+		data.put("location",location);
+		data.put("username",username);
+		data.put("phone",phone);
+		data.put("reportOn",reportOn);
+		data.put("status",status);
+		data.put("userId",userId);
+		data.put("officerContact",officerContact);
+		data.put("officerName",officerName);
+		data.put("officerZone",officerZone);
+		data.put("zoneId",zoneId);
+		data.put("officerId",officerId);
+		System.out.println(phone);
+		
 	    body.put("notification", notification);
 	    body.put("data", data);
-	 
+	    
+	    
+	    
 	/**
 	    {
 	       "notification": {
@@ -662,4 +622,52 @@ System.out.println(phone);
 //Failed message 1: com.sun.mail.util.MailConnectException: Couldn't connect to host, port: smtp.gmail.com, 587; timeout 5000;
 //  nested exception is:
 //	java.net.ConnectException: No route to host (connect failed)] with root cause
+
+
+//GET THE ZONAL OFFICER
+/*
+ * public int searchZonalOfficer(String locality) {
+ * 
+ * int zone = 0; if (locality.equals("Chaltlang") || locality.equals("null") ||
+ * locality.equals("Durtlang") || locality.equals("Durtlang Leitan") ||
+ * locality.equals("Durtlang North") || locality.equals("Selesih") ||
+ * locality.equals("Chanmari West") || locality.equals("Edenthar") ||
+ * locality.equals("Chaltlang Lily Veng")) { // zone 1 zone = 1; } else if
+ * (locality.equals("Bawngkawn") || locality.equals("Thuampui") ||
+ * locality.equals("Zuangtui") || locality.equals("Muanna Veng") ||
+ * locality.equals("Bawngkawn South") || locality.equals("Zemabawk") ||
+ * locality.equals("Zemabawk North") || locality.equals("Falkland")) { // zone 2
+ * zone = 2; } else if (locality.equals("Electric Veng") ||
+ * locality.equals("Ramhlun") || locality.equals("Ramhlun Sport Complex") ||
+ * locality.equals("Ramhlun South") || locality.equals("Ramhlun North") ||
+ * locality.equals("Ramhlun Vengthar") || locality.equals("Ramhlun Venglai") ||
+ * locality.equals("Ramthar")) { // zone 3 zone = 3; } else if
+ * (locality.equals("Tuithiang") || locality.equals("Chhinga Veng") ||
+ * locality.equals("Zarkawt") || locality.equals("Dawrpui") ||
+ * locality.equals("Chanmari West") || locality.equals("Saron Veng") ||
+ * locality.equals("Armed Veng") || locality.equals("Armed Veng South") ||
+ * locality.equals("Chite")) { // zone 4 zone = 4; } else if
+ * (locality.equals("Tuikual South") || locality.equals("Tuikual North") ||
+ * locality.equals("Dinthar") || locality.equals("Dawrpui Vengthar") ||
+ * locality.equals("Chawnpui") || locality.equals("Kanan") ||
+ * locality.equals("Zotlang") || locality.equals("Hunthar") ||
+ * locality.equals("Vaivakawn")) { // zone 5 zone = 5; } else if
+ * (locality.equals("Rangvamual") || locality.equals("Phunchawng") ||
+ * locality.equals("Tuivamit") || locality.equals("Sakawrtuichhun") ||
+ * locality.equals("Chawlhhmun") || locality.equals("Luangmual") ||
+ * locality.equals("Tanhril") || locality.equals("Govt Complex") ||
+ * locality.equals("Zonuam")) { // zone 6 zone = 6; } else if
+ * (locality.equals("Upper Republic") || locality.equals("Republic") ||
+ * locality.equals("Republic Vengthlang") || locality.equals("Venghlui") ||
+ * locality.equals("College Veng") || locality.equals("Bethlehem") ||
+ * locality.equals("Bethlehem Vengthlang") || locality.equals("ITI Veng")) { //
+ * zone 7 zone = 7; } else if (locality.equals("Bungkawn Vengthar") ||
+ * locality.equals("Maubawk") || locality.equals("Bungkawn") ||
+ * locality.equals("Khatla") || locality.equals("Khatla South") ||
+ * locality.equals("Khatla East") || locality.equals("Nursery Veng") ||
+ * locality.equals("Lawipu") || locality.equals("New Secretariat Complex")) { //
+ * zone 8 zone = 8; } return zone;
+ * 
+ * }
+ */
 

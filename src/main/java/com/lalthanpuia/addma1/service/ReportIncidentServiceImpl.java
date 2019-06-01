@@ -50,4 +50,17 @@ Incident theReportIncidentEntity = null;
 
 	}
 
+	public Incident findByPhone(String thePhone) {
+
+		List<Incident> result = null;
+		try {
+			result = reportIncidentRepository.findByPhone(thePhone);
+		}catch(Exception e) {
+			
+		}
+		
+		return result.get(0);
+
+	}
+
 }

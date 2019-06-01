@@ -13,4 +13,6 @@ public interface ReportIncidentService {
 	public void save (Incident theReportIncidentEntity);
 	
 	public void deleteById (int theId);
+	
+	public Incident findByPhone(String thePhone);
 }
