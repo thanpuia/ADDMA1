@@ -310,9 +310,9 @@ public class MyRestController {
 ////				System.out.println("INside if Else: ");
 ////				return mUser;
 ////			}
-////			System.out.println("4");
-////
-////				
+//			System.out.println("4");
+//
+//				
 ////		}catch(Exception e) {
 ////			System.out.println("User inside catch:"+mUser.getUsername());
 ////			System.out.println("Error: "+e);
@@ -328,7 +328,7 @@ public class MyRestController {
 
 		System.out.println("Phone Number: " + phoneNo);
 		System.out.println("Password: " + password);
-		password = "{noop}" + password;
+		//password = "{noop}" + password;
 
 		User mUser = new User();
 		try {
@@ -601,8 +601,8 @@ public class MyRestController {
 	    body.put("priority", "high");
 	 
 	    JSONObject notification = new JSONObject();
-	    notification.put("title", "JSA Notification");
-	    notification.put("body", "Happy Message!");
+	    notification.put("title", disasterType);
+	    notification.put("body", username);
 	    
 	    JSONObject data = new JSONObject();
 //	    data.put("Key-1", "JSA Data 1");
@@ -702,12 +702,12 @@ public class MyRestController {
 		
 		
 	    JSONObject body = new JSONObject();
-	    body.put("to", "/topics/" + "9862689748");
+	    body.put("to", "/topics/" + officerContact);
 	    body.put("priority", "high");
 	 
 	    JSONObject notification = new JSONObject();
-	    notification.put("title", "JSA Notification");
-	    notification.put("body", "Happy Message!");
+	    notification.put("title", disasterType);
+	    notification.put("body", username);
 	    
 	    JSONObject data = new JSONObject();
 //	    data.put("Key-1", "JSA Data 1");
@@ -778,6 +778,33 @@ public class MyRestController {
 	 
 	    return new ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
 	  }
+	 
+	 	// notification
+		@GetMapping("/notifyOfficer/{officerContact}")
+		public List<Incident> getNotificationOfficer(@PathVariable String officerContact) {
+		
+		System.out.println("OfficerContact: " +officerContact);
+		//only for officer: 
+		//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
+		List<Incident> notify= reportIncidentService.findByOfficerContact(officerContact);
+
+		return notify;
+
+	 }
+		
+	 	// notification
+		@GetMapping("/notifyCitizen/{phone}")
+		public List<Incident> getNotificationCitizen(@PathVariable String phone) {
+		
+//		System.out.println("OfficerContact: " +officerContact);
+//		//only for officer: 
+		//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
+		List<Incident> notify= reportIncidentService.findByPhone(phone);
+
+		return notify;
+
+	 }
+		
 	
 }
 

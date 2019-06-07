@@ -70,4 +70,18 @@ public class ReportIncidentServiceImpl implements ReportIncidentService {
 		return result;
 	}
 
+	public List<Incident> findByOfficerId(String theOfficerId) {
+		
+		List<Incident> result = reportIncidentRepository.findByOfficerId(theOfficerId);		
+		
+		return result;
+	}
+
+	public List<Incident> findByOfficerContact(String theOfficerContact) {
+		
+		List<Incident> result = reportIncidentRepository.findByOfficerContact(theOfficerContact);		
+
+		return result;
+	}
+
 }
