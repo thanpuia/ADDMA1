@@ -26,9 +26,9 @@ public class ReportIncidentServiceImpl implements ReportIncidentService {
 
 	//@Override
 	public Incident findById(int theId) {
-Optional<Incident> result = reportIncidentRepository.findById(theId);
+		Optional<Incident> result = reportIncidentRepository.findById(theId);
 		
-Incident theReportIncidentEntity = null;
+		Incident theReportIncidentEntity = null;
 		if(result.isPresent()) 
 			theReportIncidentEntity=result.get();
 		else
@@ -50,17 +50,24 @@ Incident theReportIncidentEntity = null;
 
 	}
 
-	public Incident findByPhone(String thePhone) {
+	public List<Incident> findByPhone(String thePhone) {
 
-		List<Incident> result = null;
-		try {
-			result = reportIncidentRepository.findByPhone(thePhone);
-		}catch(Exception e) {
-			
-		}
+		List<Incident> result = reportIncidentRepository.findByPhone(thePhone);
 		
-		return result.get(0);
+		//List<Incident> theIncidentResult= null;
+		
+		
+		System.out.println(result.get(0));	
+		
+		return result;
 
+	}
+
+	public Incident findFirst1ByOrderBySerialNumberDesc() {
+
+		Incident result = reportIncidentRepository.findFirst1ByOrderBySerialNumberDesc();
+		
+		return result;
 	}
 
 }

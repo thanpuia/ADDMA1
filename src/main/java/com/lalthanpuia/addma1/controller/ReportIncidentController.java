@@ -94,9 +94,9 @@ public class ReportIncidentController {
 			the zone id in the zonal officer table .. so using the String myLocality we can get the current zonalOfficer below
 			*/
 			//Officer currentZonalOfficer = zonalOfficerService.findByDistrict(myDistrict);
-			Officer currentZonalOfficer = zonalOfficerService.findByOfficerZone(myLocality);
+			//Officer currentZonalOfficer = zonalOfficerService.findByOfficerZone(myLocality);
 
-			System.out.println("This is the zonal officer:" + currentZonalOfficer);
+			//System.out.println("This is the zonal officer:" + currentZonalOfficer);
 			
 			//2. GET THE USER DETAILS
 			
@@ -111,7 +111,7 @@ public class ReportIncidentController {
 			//2.2 GET THE USER DETAILS FROM THE SMART PHONE
 			
 			//2.3 GET THE ZONAL OFFICER DETAILS FROM THE ZONAL-OFFICER TABLE
-			
+			/*
 			String officerContact 		= currentZonalOfficer.getOfficerContact();
 			String officerDesignation 	= currentZonalOfficer.getOfficerDesignation();
 			String officerDistrict		= currentZonalOfficer.getOfficerDistrict();
@@ -119,7 +119,7 @@ public class ReportIncidentController {
 			String officerZone			= currentZonalOfficer.getOfficerZone();
 			String officerName			= currentZonalOfficer.getOfficerName();
 			String officerId			= currentZonalOfficer.getOfficerId();
-			
+			*/
 		//3. PUT THE USER DETAILS
 			
 			//3.1 PUT THE USER DETAILS FROM THE USER ENTITY
@@ -137,11 +137,11 @@ public class ReportIncidentController {
 		
 			//3.3. PUT THE ZONAL OFFICER DETAILS FROM THE ZONAL OFFICER TABLE.
 			// THE ZONAL OFFICER TABLE HAS NOT BEEM CREATED SO FILLED WITH DUMMY VALUE
-			theReportIncidentEntity.setOfficerContact(officerContact);
-			theReportIncidentEntity.setOfficerId(officerId);
-			theReportIncidentEntity.setOfficerName(officerName);
+			//theReportIncidentEntity.setOfficerContact(officerContact);
+			//theReportIncidentEntity.setOfficerId(officerId);
+			//theReportIncidentEntity.setOfficerName(officerName);
 //			//theReportIncidentEntity.setZoneId(zoneIdStr);
-			theReportIncidentEntity.setOfficerZone(officerZone);
+			//theReportIncidentEntity.setOfficerZone(officerZone);
 		
 		//4. GET THE CURRENT TIME	
 			 Calendar cal = Calendar.getInstance();
@@ -159,16 +159,21 @@ public class ReportIncidentController {
 				theUserNotification.setUserSerialNo(mSerialNumber);
 				theUserNotification.setUsername(username);
 				theUserNotification.setSentType("desktop");
-				theUserNotification.setOfficerName(officerName);
-				theUserNotification.setOfficerContact(officerContact);
+				//theUserNotification.setOfficerName(officerName);
+				//theUserNotification.setOfficerContact(officerContact);
 		
 				
-		
+				System.out.println("Right before save");
+
 		
 		if(bindingResult.hasErrors()) {
 			return "error";
 		}else {
 			reportIncidentService.save(theReportIncidentEntity);
+			
+			Incident myLatestIncident = reportIncidentService.findFirst1ByOrderBySerialNumberDesc() ;
+			
+			System.out.println(myLatestIncident.getSerialNumber());
 			//return "home";
 		}
 		

@@ -14,5 +14,7 @@ public interface ReportIncidentService {
 	
 	public void deleteById (int theId);
 	
-	public Incident findByPhone(String thePhone);
+	public List<Incident> findByPhone(String thePhone);
+	
+	public Incident findFirst1ByOrderBySerialNumberDesc();
 }

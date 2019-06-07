@@ -10,4 +10,5 @@ public interface ReportIncidentRepository extends JpaRepository<Incident, Intege
 	
 	public List<Incident> findByPhone(String thePhone);
 
+	public Incident findFirst1ByOrderBySerialNumberDesc();
 }

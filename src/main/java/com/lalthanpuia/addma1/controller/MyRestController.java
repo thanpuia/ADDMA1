@@ -54,8 +54,8 @@ public class MyRestController {
 	@Autowired
 	AndroidPushNotificationsService androidPushNotificationsService;
 	
-	public String TOPIC = "7810911046";//this should be unique for every on. as soon as it get the call, it should fetch dynamicall.
-
+	public String TOPIC = "";//this should be unique for every on. as soon as it get the call, it should fetch dynamicall.
+	public String TOPIC2 = "7810911046";
 
 	public MyRestController(ReportIncidentService theReportIncidentService,
 			RequestReliefMaterialService theRequestReliefMaterialService, UserEntityService theUserEntityService,
@@ -155,17 +155,11 @@ public class MyRestController {
 		// theRequestReliefMaterialEntity.setZoneId(zoneIdStr);
 		newRelief.setOfficerZone(officerZone);
 
-
-		
-		
-		
 		//sent sms to zonal officer
 		smsRelief();
 		
 		// sent to mail
 		reliefSendMail(newRelief);
-		
-	
 
 		// Upload to REQUEST RELIEF TABLE
 		requestReliefMaterialService.save(newRelief);
@@ -174,8 +168,8 @@ public class MyRestController {
 		return "save";
 	}
 
-	// INCIDENT REPORT API
-	@PostMapping("/post/incident")
+	//INCIDENT REPORT API
+/*	@PostMapping("/post/incident")
 	public String incidentReportInsert(@RequestBody Incident newIncident) {
 
 		// GET THE ZONAL OFFICER
@@ -194,32 +188,93 @@ public class MyRestController {
 		String officerId = currentZonalOfficer.getOfficerId();
 
 		// 2.3. PUT THE ZONAL OFFICER DETAILS FROM THE ZONAL OFFICER TABLE.
+		
 		newIncident.setOfficerContact(officerContact);
 		newIncident.setOfficerId(officerId);
 		newIncident.setOfficerName(officerName);
-		// newIncident.setZoneId(zoneIdStr);
+		//newIncident.setZoneId(zoneIdStr);
 		newIncident.setOfficerZone(officerZone);
 
 		//sent sms to zonal officer
 		//smsIncident();
 		
 		// sent to mail
-		incidentSendMail(newIncident);
+		//incidentSendMail(newIncident);
+		
+		//newIncident serial khi a zero 
 		
 		// sent to client user android notification
 		System.out.println("First function: "+newIncident.getUsername());
 		send(newIncident);
 		
-		//GET ALL THE REPROT OF A THIS USER ONLY (INDIVIDUAL POST)
+		//
 		
-		List<Incident> theUserIncident = (List<Incident>) reportIncidentService.findByPhone(newIncident.getPhone());
-				
-				
-		System.out.println("This is life"+theUserIncident.get(0));	
+		//GET ALL THE REPROT OF A THIS USER ONLY (INDIVIDUAL POST)
+		//List<Incident> theUserIncident = reportIncidentService.findByPhone(newIncident.getPhone());
+		//System.out.println("This is life"+theUserIncident.get(0).getPhone());	
 	
-
+		// sent to client user android notification
+		//System.out.println("First function: "+newIncident.getUsername());
+	//	send(theUserIncident);
+		
 		// UPLOAD TO INCIDENT REPORT TABLE
 		reportIncidentService.save(newIncident);
+
+		return "save";
+	}
+*/
+	
+	//INCIDENT REPORT API
+	@PostMapping("/post/incident")
+	public String incidentReportInsert(@RequestBody Incident newIncident) {
+
+		Officer currentZonalOfficer = zonalOfficerService.findByOfficerLocality(newIncident.getLocality());
+
+		// 2.3 GET THE ZONAL OFFICER DETAILS FROM THE ZONALOFFICER TABLE
+		String officerContact = currentZonalOfficer.getOfficerContact();
+		String officerDesignation = currentZonalOfficer.getOfficerDesignation();
+		String offierDistrict = currentZonalOfficer.getOfficerDistrict();
+		String officerEmail = currentZonalOfficer.getOfficerEmail();
+		String officerZone = currentZonalOfficer.getOfficerZone();
+		String officerName = currentZonalOfficer.getOfficerName();
+		String officerId = currentZonalOfficer.getOfficerId();
+
+		// 2.3. PUT THE ZONAL OFFICER DETAILS FROM THE ZONAL OFFICER TABLE.
+		newIncident.setOfficerContact(officerContact);
+		newIncident.setOfficerId(officerId);
+		newIncident.setOfficerName(officerName);
+		//newIncident.setZoneId(zoneIdStr);
+		newIncident.setOfficerZone(officerZone);
+		
+		// UPLOAD TO INCIDENT REPORT TABLE
+		reportIncidentService.save(newIncident);
+		
+		Incident myLatestIncident = (Incident) reportIncidentService.findFirst1ByOrderBySerialNumberDesc() ;
+		
+		System.out.println(myLatestIncident.getSerialNumber());
+		//sent sms to zonal officer
+		//smsIncident();
+		
+		// sent to mail
+		//incidentSendMail(newIncident);
+		
+		
+		// sent to client user android notification
+		System.out.println("First function: "+newIncident.getUsername());
+		sendUser(newIncident);
+		sendZonalOfficer(newIncident);
+
+		//
+		
+		//GET ALL THE REPROT OF A THIS USER ONLY (INDIVIDUAL POST)
+		//List<Incident> theUserIncident = reportIncidentService.findByPhone(newIncident.getPhone());
+		//System.out.println("This is life"+theUserIncident.get(0).getPhone());	
+	
+		// sent to client user android notification
+		//System.out.println("First function: "+newIncident.getUsername());
+	//	send(theUserIncident);
+		
+
 
 		return "save";
 	}
@@ -280,7 +335,7 @@ public class MyRestController {
 			// mUser = userEntityService.findByUsername(phoneNo);
 			mUser = userEntityService.findByPhoneNo(phoneNo);
 			String mPassword = mUser.getPassword();
-			System.out.println("Real userpassowr: " + mPassword + " " + mUser.getAltContactName());
+			System.out.println("Real userpassowrd: " + mPassword + " " + mUser.getAltContactName());
 			if (mPassword.equals(password)) {
 			} else {
 				mUser = null;
@@ -508,11 +563,17 @@ public class MyRestController {
 //		return new ResponseEntity<String> ("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
 //	}
 	
-	 @RequestMapping(value = "/sendd", method = RequestMethod.GET, produces = "application/json")
-	  public ResponseEntity<String> send(Incident mIncident) throws JSONException {
+	
+	
+	
+	
+	
+	 @RequestMapping(value = "/sendUser", method = RequestMethod.GET, produces = "application/json")
+	  public ResponseEntity<String> sendUser(Incident mIncident) throws JSONException {
 			System.out.println("First function: "+mIncident.getUsername());
 
 		//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
+		int serialNumber = mIncident.getSerialNumber();
 		String disasterType = mIncident.getDisasterType();
 		String locality = mIncident.getLocality();
 		String landmarks = mIncident.getLandmarks();
@@ -533,6 +594,7 @@ public class MyRestController {
 		String zoneId = mIncident.getZoneId();
 		String officerId = mIncident.getOfficerId();
 		
+		TOPIC = phone;
 		
 	    JSONObject body = new JSONObject();
 	    body.put("to", "/topics/" + TOPIC);
@@ -543,9 +605,10 @@ public class MyRestController {
 	    notification.put("body", "Happy Message!");
 	    
 	    JSONObject data = new JSONObject();
-	    data.put("Key-1", "JSA Data 1");
-	    data.put("Key-2", "JSA Data 2");
+//	    data.put("Key-1", "JSA Data 1");
+//	    data.put("Key-2", "JSA Data 2");
 	    
+	    data.put("serialNumber",serialNumber);
 	    data.put("disasterType",disasterType);
 	    data.put("locality",locality);
 	    data.put("landmarks",landmarks);
@@ -610,6 +673,112 @@ public class MyRestController {
 	 
 	    return new ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
 	  }
+	 
+	 @RequestMapping(value = "/sendZonalOfficer", method = RequestMethod.GET, produces = "application/json")
+	  public ResponseEntity<String> sendZonalOfficer(Incident mIncident) throws JSONException {
+			System.out.println("First function: "+mIncident.getUsername());
+
+		//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
+		int serialNumber = mIncident.getSerialNumber();
+		String disasterType = mIncident.getDisasterType();
+		String locality = mIncident.getLocality();
+		String landmarks = mIncident.getLandmarks();
+		String details = mIncident.getDetails();
+		String district = mIncident.getDistrict();
+		String inLocation = mIncident.getInLocation();
+		String lat = mIncident.getLat();
+		String lng = mIncident.getLng();
+		String location = mIncident.getLocation();
+		String username = mIncident.getUsername();
+		String phone = mIncident.getPhone();
+		String reportOn =mIncident.getReportOn();
+		String status =mIncident.getStatus();
+		String userId = mIncident.getUserId();
+		String officerContact = mIncident.getOfficerContact();
+		String officerName = mIncident.getOfficerName();
+		String officerZone = mIncident.getOfficerZone();
+		String zoneId = mIncident.getZoneId();
+		String officerId = mIncident.getOfficerId();
+		
+		
+	    JSONObject body = new JSONObject();
+	    body.put("to", "/topics/" + "9862689748");
+	    body.put("priority", "high");
+	 
+	    JSONObject notification = new JSONObject();
+	    notification.put("title", "JSA Notification");
+	    notification.put("body", "Happy Message!");
+	    
+	    JSONObject data = new JSONObject();
+//	    data.put("Key-1", "JSA Data 1");
+//	    data.put("Key-2", "JSA Data 2");
+	    
+	    data.put("serialNumber",serialNumber);
+	    data.put("disasterType",disasterType);
+	    data.put("locality",locality);
+	    data.put("landmarks",landmarks);
+	    data.put("details",details);
+	    data.put("district",district);
+		data.put("inLocation",inLocation);
+		data.put("lat",lat);
+		data.put("lng",lng);
+		data.put("location",location);
+		data.put("username",username);
+		data.put("phone",phone);
+		data.put("reportOn",reportOn);
+		data.put("status",status);
+		data.put("userId",userId);
+		data.put("officerContact",officerContact);
+		data.put("officerName",officerName);
+		data.put("officerZone",officerZone);
+		data.put("zoneId",zoneId);
+		data.put("officerId",officerId);
+		System.out.println(phone);
+		
+	    body.put("notification", notification);
+	    body.put("data", data);
+	    
+	    
+	    
+	/**
+	    {
+	       "notification": {
+	          "title": "JSA Notification",
+	          "body": "Happy Message!"
+	       },
+	       "data": {
+	          "Key-1": "JSA Data 1",
+	          "Key-2": "JSA Data 2"
+	       },
+	       "to": "/topics/JavaSampleApproach",
+	       "priority": "high"
+	    }
+	*/
+	 
+	    HttpEntity<String> request = new HttpEntity<String>(body.toString());
+	 
+	    CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
+	    CompletableFuture.allOf(pushNotification).join();
+	 
+	    System.out.println("inside FCM");
+	    try {
+	      String firebaseResponse = pushNotification.get();
+		    System.out.println("inside FCM try block");
+
+	      return new ResponseEntity<String>(firebaseResponse, HttpStatus.OK);
+	    } catch (InterruptedException e) {
+		    System.out.println("inside FCM catch");
+
+	      e.printStackTrace();
+	    } catch (ExecutionException e) {
+		    System.out.println("inside FCM catch");
+
+	      e.printStackTrace();
+	    }
+	 
+	    return new ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
+	  }
+	
 }
 
 
