@@ -805,7 +805,19 @@ public class MyRestController {
 
 	 }
 		
-	
+		//EDIT THE INCIDENT STATUS
+		@GetMapping("statusChange/{incidentId}/{status}")
+		public String changeStatus(@PathVariable int incidentId, @PathVariable String status) {
+			
+			//Incident inc = reportIncidentService.findBySerialNumber(incidentId, status);
+			Incident inc = reportIncidentService.findBySerialNumber(incidentId);
+			
+			inc.setStatus(status);
+			
+			reportIncidentService.save(inc);
+			System.out.println("Status: "+inc.getStatus());
+			return "change";
+		}
 }
 
 

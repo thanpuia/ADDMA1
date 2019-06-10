@@ -102,6 +102,7 @@ public class AdminController {
 		
 		return "admin/admin-incident";
 	}
+	
 	@PostMapping("incident/update")
 	public String incidentUpdate(@RequestParam("incidentId") int theId, Model theModel) {
 		

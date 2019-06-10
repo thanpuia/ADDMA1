@@ -20,5 +20,8 @@ public interface ReportIncidentService {
 	
 	public List<Incident> findByOfficerId(String theOfficerId);
 	public List<Incident> findByOfficerContact(String theOfficerContact);
+	
+	//public Incident findBySerialNumber(int theSerialNumber, String status);
+	public Incident findBySerialNumber(int theSerialNumber);
 
 }

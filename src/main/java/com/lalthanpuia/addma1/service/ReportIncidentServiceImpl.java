@@ -84,4 +84,23 @@ public class ReportIncidentServiceImpl implements ReportIncidentService {
 		return result;
 	}
 
+//	public Incident findBySerialNumber(int theSerialNumber, String status) {
+//
+//		Incident result = reportIncidentRepository.findBySerialNumber(theSerialNumber,status);
+//		//result.setStatus("seen");
+//		result.setStatus(status);
+//
+//		reportIncidentRepository.save(result);
+//		return result;
+//	}
+	public Incident findBySerialNumber(int theSerialNumber) {
+
+		Incident result = reportIncidentRepository.findBySerialNumber(theSerialNumber);
+		//result.setStatus("seen");
+		//result.setStatus(status);
+
+		//reportIncidentRepository.save(result);
+		return result;
+	}
+
 }
