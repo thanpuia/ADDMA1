@@ -13,4 +13,17 @@ public interface RequestReliefMaterialService {
 	public void save (Relief theRequestReliefMaterialEntity);
 	
 	public void deleteById (int theId);
+	
+	
+	public List<Relief> findByPhone(String thePhone);
+	
+	public Relief findFirst1ByOrderBySerialNumberDesc();
+	
+	public List<Relief> findByOfficerId(String theOfficerId);
+	
+	public List<Relief> findByOfficerContact(String theOfficerContact);
+	
+	//public Incident findBySerialNumber(int theSerialNumber, String status);
+	public Relief findBySerialNumber(int theSerialNumber);
+
 }

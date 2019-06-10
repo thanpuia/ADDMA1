@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lalthanpuia.addma1.dao.RequestReliefMaterialRepository;
+import com.lalthanpuia.addma1.entity.Incident;
 import com.lalthanpuia.addma1.entity.Relief;
 
 @Service
@@ -48,6 +49,42 @@ public class RequestReliefMaterialServiceImpl implements RequestReliefMaterialSe
 	//@Override
 	public void deleteById(int theId) {
 		requestReliefMaterialRepository.deleteById(theId);		
+	}
+
+	public List<Relief> findByPhone(String thePhone) {
+		List<Relief> result = requestReliefMaterialRepository.findByPhone(thePhone);
+		
+		//List<Incident> theIncidentResult= null;
+		
+		
+		System.out.println(result.get(0));	
+		
+		return result;
+	}
+
+	public Relief findFirst1ByOrderBySerialNumberDesc() {
+		Relief result = requestReliefMaterialRepository.findFirst1ByOrderBySerialNumberDesc();
+		
+		return result;
+	}
+
+	public List<Relief> findByOfficerId(String theOfficerId) {
+		List<Relief> result = requestReliefMaterialRepository.findByOfficerId(theOfficerId);		
+		
+		return result;
+	}
+
+	public List<Relief> findByOfficerContact(String theOfficerContact) {
+
+		List<Relief> result = requestReliefMaterialRepository.findByOfficerContact(theOfficerContact);		
+
+		return result;
+	}
+
+	public Relief findBySerialNumber(int theSerialNumber) {
+		Relief result = requestReliefMaterialRepository.findBySerialNumber(theSerialNumber);
+		
+		return result;
 	}
 
 }
