@@ -129,6 +129,36 @@ public class MyRestController {
 		}
 		return note;
 	}
+	// AUTHENTICATION LOGIN
+		@GetMapping("/test/{phoneNo}/{password}")
+		public User login(@PathVariable String phoneNo, @PathVariable String password) {
+
+			System.out.println("Phone Number: " + phoneNo);
+			System.out.println("Password: " + password);
+			//password = "{noop}" + password;
+
+			List<User> mUserList ;
+			try {
+				// mUser = userEntityService.findByUsername(phoneNo);
+				mUserList =  userEntityService.findByPhoneNo(phoneNo);
+				User mUser = mUserList.get(0);
+				String mPassword = mUser.getPassword();
+				System.out.println("Real userpassowrd: " + mPassword + " " + mUser.getAltContactName());
+				if (mPassword.equals(password)) {
+				} else {
+					mUser = null;
+					System.out.println("INside if Else: ");
+					return mUser;
+				}
+			} catch (Exception e) {
+				System.out.println("User inside catch:" + mUser.getUsername());
+				//mUser = null;
+				return mUser;
+			}
+
+			System.out.println("User otsi:" + mUser.getUsername());
+			return mUser;
+		}
 
 	// REQUEST RELIEF API
 	@PostMapping("/post/relief")
@@ -137,6 +167,7 @@ public class MyRestController {
 		// GET THE ZONAL OFFICER
 		String locality = newRelief.getLocality();
 		System.out.println("Locality: " + newRelief.getLocality());
+		System.out.println("Test: " + newRelief.getLocality()+newRelief.getDetails()+newRelief.getMaterial()+newRelief.getLocation()+newRelief.getLocality()+newRelief.getOfficerName());
 
 		Officer currentZonalOfficer = zonalOfficerService.findByOfficerLocality(locality);
 		// int zone = searchZonalOfficer(locality);
@@ -172,8 +203,8 @@ public class MyRestController {
 		reliefSendMail(newRelief);
 
 		//SENT TO CLIENT USER ANDROID NOTIFICATION
-		sendUser(newRelief);
-		sendZonalOfficer(newRelief);
+		sendUserRelief(newRelief);
+		sendZonalOfficerRelief(newRelief);
 		
 		
 		System.out.println("Checking post relief: " + newRelief.getMaterial());
@@ -297,80 +328,7 @@ public class MyRestController {
 		return "save";
 	}
 
-	// AUTHENTICATION LOGIN
-	@GetMapping("/test/{phoneNo}/{password}")
-	public User login(@PathVariable String phoneNo, @PathVariable String password) {
-
-		// mUser = new User();
-
-//		System.out.println("Username: "+ username);
-//		
-//		//the noop cannot be added in the client side so it must be here
-//		password =password;
-//		System.out.println("Password: "+ password);
-
-//		//try {
-//			//User mUser = new User();
-//			System.out.println("1");
-//			mUser = userEntityService.findByUsername(username);
-//			
-//			System.out.println("2"+ mUser.getUsername());
-//
-//			String mPassword = mUser.getPassword();	
-//			System.out.println("Username: "+ username);
-//
-//			System.out.println("Real userpassword: "+mPassword);
-////			if(mPassword.equals(password)) {
-////				System.out.println("3");
-////
-////			}else {
-////				mUser = null;
-////				System.out.println("INside if Else: ");
-////				return mUser;
-////			}
-//			System.out.println("4");
-//
-//				
-////		}catch(Exception e) {
-////			System.out.println("User inside catch:"+mUser.getUsername());
-////			System.out.println("Error: "+e);
-////			System.out.println("5");
-////
-////			mUser = null;
-////			return mUser;
-////		}
-//		System.out.println("6");
-//
-//		System.out.println("User otsi:"+mUser.getUsername());
-//	    return mUser;
-
-		System.out.println("Phone Number: " + phoneNo);
-		System.out.println("Password: " + password);
-		//password = "{noop}" + password;
-
-		List<User> mUserList ;
-		try {
-			// mUser = userEntityService.findByUsername(phoneNo);
-			mUserList =  userEntityService.findByPhoneNo(phoneNo);
-			User mUser = mUserList.get(0);
-			String mPassword = mUser.getPassword();
-			System.out.println("Real userpassowrd: " + mPassword + " " + mUser.getAltContactName());
-			if (mPassword.equals(password)) {
-			} else {
-				mUser = null;
-				System.out.println("INside if Else: ");
-				return mUser;
-			}
-		} catch (Exception e) {
-			System.out.println("User inside catch:" + mUser.getUsername());
-			mUser = null;
-			return mUser;
-		}
-
-		System.out.println("User otsi:" + mUser.getUsername());
-		return mUser;
-	}
-
+	
 	
 	  // GET THE ZONAL OFFICER
 	  @GetMapping("/get/{locality}") 
@@ -810,25 +768,26 @@ public class MyRestController {
 
 			//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
 			int serialNumber = mRelief.getSerialNumber();
-			//String disasterType = mRelief.getDisasterType();
-			String locality = mRelief.getLocality();
-			String landmarks = mRelief.getLandmarks();
 			String details = mRelief.getDetails();
 			String district = mRelief.getDistrict();
-			//String inLocation = mRelief.getInLocation();
-			String lat = mRelief.getLat();
+			String landmarks = mRelief.getLandmarks();
+			String lat =mRelief.getLat();
 			String lng = mRelief.getLng();
-			//String location = mRelief.getLocation();
+			String locality = mRelief.getLocality();
+			String material = mRelief.getMaterial();
+			String materialId = mRelief.getMaterialId();
 			String username = mRelief.getUsername();
 			String phone = mRelief.getPhone();
-			//String reportOn =mRelief.getReportOn();
-			String status =mRelief.getStatus();
+			String quantity  = mRelief.getQuantity();
+			String requestOn = mRelief.getRequestOn();
+			String location = mRelief.getLocation();
+			String status = mRelief.getStatus();
 			String userId = mRelief.getUserId();
 			String officerContact = mRelief.getOfficerContact();
-			String officerName = mRelief.getOfficerName();
-			String officerZone = mRelief.getOfficerZone();
-			String zoneId = mRelief.getZoneId();
 			String officerId = mRelief.getOfficerId();
+			String officerName = mRelief.getOfficerName();
+			String zoneId = mRelief.getZoneId();
+			String officerZone  = mRelief.getOfficerZone();
 			
 			TOPIC = phone;
 			
@@ -837,7 +796,7 @@ public class MyRestController {
 		    body.put("priority", "high");
 		 
 		    JSONObject notification = new JSONObject();
-		    //notification.put("title", disasterType);
+		    notification.put("title", material);
 		    notification.put("body", username);
 		    
 		    JSONObject data = new JSONObject();
@@ -845,46 +804,33 @@ public class MyRestController {
 //		    data.put("Key-2", "JSA Data 2");
 		    
 		    data.put("serialNumber",serialNumber);
-		    //data.put("disasterType",disasterType);
-		    data.put("locality",locality);
-		    data.put("landmarks",landmarks);
 		    data.put("details",details);
 		    data.put("district",district);
-			//data.put("inLocation",inLocation);
-			data.put("lat",lat);
+		    data.put("landmarks",landmarks);
+		    data.put("lat",lat);
 			data.put("lng",lng);
-			//data.put("location",location);
+			data.put("locality",locality);
+			data.put("material",material);
+			data.put("materialId",materialId);
 			data.put("username",username);
 			data.put("phone",phone);
-			//data.put("reportOn",reportOn);
-			data.put("status",status);
-			data.put("userId",userId);
+			data.put("quantity",quantity);
+			data.put("requestOn", requestOn);
+			data.put("quantity",quantity);
+		    data.put("requestOn", requestOn);
+		    data.put("location",location);
+		    data.put("status",status);
+		    data.put("userId", userId);
 			data.put("officerContact",officerContact);
 			data.put("officerName",officerName);
 			data.put("officerZone",officerZone);
 			data.put("zoneId",zoneId);
 			data.put("officerId",officerId);
+			
 			System.out.println(phone);
 			
 		    body.put("notification", notification);
 		    body.put("data", data);
-		    
-		    
-		    
-		/**
-		    {
-		       "notification": {
-		          "title": "JSA Notification",
-		          "body": "Happy Message!"
-		       },
-		       "data": {
-		          "Key-1": "JSA Data 1",
-		          "Key-2": "JSA Data 2"
-		       },
-		       "to": "/topics/JavaSampleApproach",
-		       "priority": "high"
-		    }
-		*/
 		 
 		    HttpEntity<String> request = new HttpEntity<String>(body.toString());
 		 
@@ -894,7 +840,7 @@ public class MyRestController {
 		    System.out.println("inside FCM");
 		    try {
 		      String firebaseResponse = pushNotification.get();
-			    System.out.println("inside FCM try block");
+			  System.out.println("inside FCM try block");
 
 		      return new ResponseEntity<String>(firebaseResponse, HttpStatus.OK);
 		    } catch (InterruptedException e) {
@@ -910,39 +856,42 @@ public class MyRestController {
 		    return new ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
 		  }
 		 
+ //*****************************************************************
+		 
 		 @RequestMapping(value = "/sendZonalOfficerRelief", method = RequestMethod.GET, produces = "application/json")
 		  public ResponseEntity<String> sendZonalOfficerRelief(Relief mRelief) throws JSONException {
-				System.out.println("First function: "+mRelief.getUsername());
+				
+			System.out.println("First function: "+mRelief.getUsername());
 
 			//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
 			int serialNumber = mRelief.getSerialNumber();
-			//String disasterType = mRelief.getDisasterType();
-			String locality = mRelief.getLocality();
-			String landmarks = mRelief.getLandmarks();
 			String details = mRelief.getDetails();
 			String district = mRelief.getDistrict();
-			//String inLocation = mRelief.getInLocation();
-			String lat = mRelief.getLat();
+			String landmarks = mRelief.getLandmarks();
+			String lat =mRelief.getLat();
 			String lng = mRelief.getLng();
-			//String location = mRelief.getLocation();
+			String locality = mRelief.getLocality();
+			String material = mRelief.getMaterial();
+			String materialId = mRelief.getMaterialId();
 			String username = mRelief.getUsername();
 			String phone = mRelief.getPhone();
-			//String reportOn =mRelief.getReportOn();
-			String status =mRelief.getStatus();
+			String quantity  = mRelief.getQuantity();
+			String requestOn = mRelief.getRequestOn();
+			String location = mRelief.getLocation();
+			String status = mRelief.getStatus();
 			String userId = mRelief.getUserId();
 			String officerContact = mRelief.getOfficerContact();
-			String officerName = mRelief.getOfficerName();
-			String officerZone = mRelief.getOfficerZone();
-			String zoneId = mRelief.getZoneId();
 			String officerId = mRelief.getOfficerId();
-			
+			String officerName = mRelief.getOfficerName();
+			String zoneId = mRelief.getZoneId();
+			String officerZone  = mRelief.getOfficerZone();
 			
 		    JSONObject body = new JSONObject();
 		    body.put("to", "/topics/" + officerContact);
 		    body.put("priority", "high");
 		 
 		    JSONObject notification = new JSONObject();
-		    notification.put("title", disasterType);
+		    notification.put("title", material);
 		    notification.put("body", username);
 		    
 		    JSONObject data = new JSONObject();
@@ -950,47 +899,32 @@ public class MyRestController {
 //		    data.put("Key-2", "JSA Data 2");
 		    
 		    data.put("serialNumber",serialNumber);
-		    data.put("disasterType",disasterType);
-		    data.put("locality",locality);
-		    data.put("landmarks",landmarks);
 		    data.put("details",details);
 		    data.put("district",district);
-			data.put("inLocation",inLocation);
-			data.put("lat",lat);
+		    data.put("landmarks",landmarks);
+		    data.put("lat",lat);
 			data.put("lng",lng);
-			data.put("location",location);
+			data.put("locality",locality);
+			data.put("material",material);
+			data.put("materialId",materialId);
 			data.put("username",username);
 			data.put("phone",phone);
-			data.put("reportOn",reportOn);
-			data.put("status",status);
-			data.put("userId",userId);
+			data.put("quantity",quantity);
+			data.put("requestOn", requestOn);
+			data.put("quantity",quantity);
+		    data.put("requestOn", requestOn);
+		    data.put("location",location);
+		    data.put("status",status);
+		    data.put("userId", userId);
 			data.put("officerContact",officerContact);
 			data.put("officerName",officerName);
 			data.put("officerZone",officerZone);
 			data.put("zoneId",zoneId);
 			data.put("officerId",officerId);
-			System.out.println(phone);
 			
 		    body.put("notification", notification);
 		    body.put("data", data);
-		    
-		    
-		    
-		/**
-		    {
-		       "notification": {
-		          "title": "JSA Notification",
-		          "body": "Happy Message!"
-		       },
-		       "data": {
-		          "Key-1": "JSA Data 1",
-		          "Key-2": "JSA Data 2"
-		       },
-		       "to": "/topics/JavaSampleApproach",
-		       "priority": "high"
-		    }
-		*/
-		 
+
 		    HttpEntity<String> request = new HttpEntity<String>(body.toString());
 		 
 		    CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
@@ -1019,26 +953,34 @@ public class MyRestController {
 		@GetMapping("/notifyOfficer/{officerContact}")
 		public List<Incident> getNotificationOfficer(@PathVariable String officerContact) {
 		
-		System.out.println("OfficerContact: " +officerContact);
-		//only for officer: 
-		//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
-		List<Incident> notify= reportIncidentService.findByOfficerContact(officerContact);
+			System.out.println("OfficerContact: " +officerContact);
+			//only for officer: 
+			//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
+			List<Incident> notify= reportIncidentService.findByOfficerContact(officerContact);
 
-		return notify;
-	 }
+			return notify;
+			}
+		
+		
 		//find all the notification for a single user. using its phone number
 	 	// notification
 		@GetMapping("/notifyCitizen/{phone}")
 		public List<Incident> getNotificationCitizen(@PathVariable String phone) {
 		
-//		System.out.println("OfficerContact: " +officerContact);
-//		//only for officer: 
-		//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
-		List<Incident> notify= reportIncidentService.findByPhone(phone);
+			//System.out.println("OfficerContact: " +officerContact);
+			//only for officer: 
+			//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
+			List<Incident> notify= reportIncidentService.findByPhone(phone);
 
-		return notify;
+			return notify;	
+		}
+		
+		
+//***********************************************************************
 
-	 }
+	//	NOTIfication kha a buaithlak dawn ta
+		
+		
 		
 		//EDIT THE INCIDENT STATUS
 		@GetMapping("statusChange/{incidentId}/{status}")

@@ -32,6 +32,7 @@ public class Relief {
 	@Column(name="lng")
 	String lng;
 	
+	//this is the address of the sender
 	@Column(name="locality")
 	String locality;
 	
@@ -55,6 +56,9 @@ public class Relief {
 	
 	@Column(name="status")
 	String status;
+	
+	@Column(name="location")
+	String location;
 	
 	@Column(name="user_id")
 	String userId;
@@ -81,8 +85,8 @@ public class Relief {
 
 	public Relief(int serialNumber, String details, String district, String landmarks, String lat, String lng,
 			String locality, String material, String materialId, String username, String phone, String quantity,
-			String requestOn, String status, String userId, String officerContact, String officerId, String officerName,
-			String zoneId, String officerZone) {
+			String requestOn, String status, String location, String userId, String officerContact, String officerId,
+			String officerName, String zoneId, String officerZone) {
 		this.serialNumber = serialNumber;
 		this.details = details;
 		this.district = district;
@@ -97,12 +101,22 @@ public class Relief {
 		this.quantity = quantity;
 		this.requestOn = requestOn;
 		this.status = status;
+		this.location = location;
 		this.userId = userId;
 		this.officerContact = officerContact;
 		this.officerId = officerId;
 		this.officerName = officerName;
 		this.zoneId = zoneId;
 		this.officerZone = officerZone;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
 
