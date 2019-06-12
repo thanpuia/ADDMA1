@@ -141,21 +141,29 @@ public class MyRestController {
 			try {
 				// mUser = userEntityService.findByUsername(phoneNo);
 				mUserList =  userEntityService.findByPhoneNo(phoneNo);
-				User mUser = mUserList.get(0);
+				mUser = mUserList.get(0);
 				String mPassword = mUser.getPassword();
-				System.out.println("Real userpassowrd: " + mPassword + " " + mUser.getAltContactName());
+				System.out.println("Real userpassowrd: " + mPassword + " " + mUser.getUsername());
 				if (mPassword.equals(password)) {
 				} else {
+					System.out.println("1");
+
 					mUser = null;
 					System.out.println("INside if Else: ");
 					return mUser;
 				}
+				System.out.println("2");
+
 			} catch (Exception e) {
+				System.out.println("3");
+
+				System.out.println("4 ");
+
 				System.out.println("User inside catch:" + mUser.getUsername());
 				//mUser = null;
 				return mUser;
 			}
-
+			System.out.println("5");
 			System.out.println("User otsi:" + mUser.getUsername());
 			return mUser;
 		}
@@ -764,10 +772,11 @@ public class MyRestController {
 		//*****************************
 		 @RequestMapping(value = "/sendUserRelief", method = RequestMethod.GET, produces = "application/json")
 		  public ResponseEntity<String> sendUserRelief(Relief mRelief) throws JSONException {
-				System.out.println("First function: "+mRelief.getUsername());
+				System.out.println("First function serial number: "+mRelief.getSerialNumber());
 
 			//EXTRACT ALL THE REQUIRED DATA FOR NOTIFICATION
 			int serialNumber = mRelief.getSerialNumber();
+			
 			String details = mRelief.getDetails();
 			String district = mRelief.getDistrict();
 			String landmarks = mRelief.getLandmarks();
@@ -948,44 +957,73 @@ public class MyRestController {
 		 
 		    return new ResponseEntity<String>("Push Notification ERROR!", HttpStatus.BAD_REQUEST);
 		  }
-		 
+		//***********************************************************************
+//for INCIDENT	 
 	 	// notification
-		@GetMapping("/notifyOfficer/{officerContact}")
+		@GetMapping("/notifyOfficer/incident/{officerContact}")
 		public List<Incident> getNotificationOfficer(@PathVariable String officerContact) {
-		
+			System.out.println("1" );
 			System.out.println("OfficerContact: " +officerContact);
 			//only for officer: 
 			//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
 			List<Incident> notify= reportIncidentService.findByOfficerContact(officerContact);
 
+			System.out.println("1 Serial no: " + notify.get(0).getSerialNumber());
 			return notify;
 			}
 		
 		
 		//find all the notification for a single user. using its phone number
 	 	// notification
-		@GetMapping("/notifyCitizen/{phone}")
+		@GetMapping("/notifyCitizen/incident/{phone}")
 		public List<Incident> getNotificationCitizen(@PathVariable String phone) {
-		
-			//System.out.println("OfficerContact: " +officerContact);
+			System.out.println("2" );
+			System.out.println("user Phone: " +phone);
 			//only for officer: 
 			//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
 			List<Incident> notify= reportIncidentService.findByPhone(phone);
 
 			return notify;	
 		}
-		
-		
-//***********************************************************************
 
-	//	NOTIfication kha a buaithlak dawn ta
-		
-		
-		
+		//***********************************************************************
+
+		//***********************************************************************
+		//for Relief	 
+			 	// notification
+				@GetMapping("/notifyOfficer/relief/{officerContact}")
+				public List<Relief> getNotificationOfficer2(@PathVariable String officerContact) {
+					System.out.println("3" );
+
+					System.out.println("OfficerContact: " +officerContact);
+					//only for officer: 
+					//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
+					List<Relief> notify= requestReliefMaterialService.findByOfficerContact(officerContact);
+					System.out.println("2 Serial no: " + notify.get(0).getSerialNumber());
+
+					return notify;
+					}
+				
+				
+				//find all the notification for a single user. using its phone number
+			 	// notification
+				@GetMapping("/notifyCitizen/relief/{phone}")
+				public List<Relief> getNotificationCitizen2(@PathVariable String phone) {
+					System.out.println("4" );
+					//System.out.println("OfficerContact: " +officerContact);
+					//only for officer: 
+					//List<Incident> notify= reportIncidentService.findByOfficerId(officerId);
+					List<Relief> notify= requestReliefMaterialService.findByPhone(phone);
+
+					return notify;	
+				}
+
+		//***********************************************************************
+
 		//EDIT THE INCIDENT STATUS
-		@GetMapping("statusChange/{incidentId}/{status}")
-		public String changeStatus(@PathVariable int incidentId, @PathVariable String status) {
-			
+		@GetMapping("statusChange/incident/{incidentId}/{status}")
+		public String changeStatusIncident(@PathVariable int incidentId, @PathVariable String status) {
+			System.out.println("1 " + incidentId);
 			//Incident inc = reportIncidentService.findBySerialNumber(incidentId, status);
 			Incident inc = reportIncidentService.findBySerialNumber(incidentId);
 			
@@ -995,6 +1033,27 @@ public class MyRestController {
 			inc.setStatus(status);
 			
 			reportIncidentService.save(inc);
+			System.out.println("Status: "+inc.getStatus());
+			return "change";
+		}
+		
+		//***********************************************************************
+
+		//EDIT THE RELIEF STATUS
+		@GetMapping("statusChange/relief/{reliefId}/{status}")
+		public String changeStatusRelief(@PathVariable int reliefId, @PathVariable String status) {
+			System.out.println("edit 2:" +reliefId +" " + status );
+			//Incident inc = reportIncidentService.findBySerialNumber(incidentId, status);
+			Relief inc = requestReliefMaterialService.findBySerialNumber(reliefId);
+			System.out.println("edit 3" );
+
+			if(status.equals("notSeen")) {
+				status ="Not Seen";
+			}
+			inc.setStatus(status);
+			System.out.println("edit 4" );
+
+			requestReliefMaterialService.save(inc);
 			System.out.println("Status: "+inc.getStatus());
 			return "change";
 		}

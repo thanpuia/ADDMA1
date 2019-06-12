@@ -110,6 +110,7 @@ public class Relief {
 		this.officerZone = officerZone;
 	}
 
+	
 	public String getLocation() {
 		return location;
 	}
