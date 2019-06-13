@@ -82,11 +82,11 @@ public class Relief {
 	public Relief() {
 	}
 
-
 	public Relief(int serialNumber, String details, String district, String landmarks, String lat, String lng,
 			String locality, String material, String materialId, String username, String phone, String quantity,
 			String requestOn, String status, String location, String userId, String officerContact, String officerId,
 			String officerName, String zoneId, String officerZone) {
+		
 		this.serialNumber = serialNumber;
 		this.details = details;
 		this.district = district;
@@ -108,6 +108,7 @@ public class Relief {
 		this.officerName = officerName;
 		this.zoneId = zoneId;
 		this.officerZone = officerZone;
+		
 	}
 
 	

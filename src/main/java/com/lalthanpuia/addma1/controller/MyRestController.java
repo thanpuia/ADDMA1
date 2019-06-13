@@ -24,12 +24,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.lalthanpuia.addma1.entity.GlobalNotification;
 import com.lalthanpuia.addma1.entity.Incident;
 import com.lalthanpuia.addma1.entity.Note;
 import com.lalthanpuia.addma1.entity.Officer;
 import com.lalthanpuia.addma1.entity.Relief;
 import com.lalthanpuia.addma1.entity.User;
 import com.lalthanpuia.addma1.notification.AndroidPushNotificationsService;
+import com.lalthanpuia.addma1.service.GlobalNotificationService;
 import com.lalthanpuia.addma1.service.NotificationService;
 import com.lalthanpuia.addma1.service.ReportIncidentService;
 import com.lalthanpuia.addma1.service.RequestReliefMaterialService;
@@ -46,6 +48,7 @@ public class MyRestController {
 	private ZonalOfficerService zonalOfficerService;
 	private NotificationService notificationRequestReliefService;
 	private UserNotificationService userNotificationService;
+	private GlobalNotificationService globalNotificationService;
 
 	public User mUser = new User();
 
@@ -56,12 +59,12 @@ public class MyRestController {
 	AndroidPushNotificationsService androidPushNotificationsService;
 	
 	public String TOPIC = "";//this should be unique for every on. as soon as it get the call, it should fetch dynamicall.
-	public String TOPIC2 = "7810911046";
+	public String TOPIC_GLOBAL = "TOPIC_GLOBAL";
 
 	public MyRestController(ReportIncidentService theReportIncidentService,
 			RequestReliefMaterialService theRequestReliefMaterialService, UserEntityService theUserEntityService,
 			ZonalOfficerService theZonalOfficerService, NotificationService theNotificationRequestReliefService,
-			UserNotificationService theUserNotificationService) {
+			UserNotificationService theUserNotificationService, GlobalNotificationService theGlobalNotificationService) {
 
 		this.reportIncidentService = theReportIncidentService;
 		this.requestReliefMaterialService = theRequestReliefMaterialService;
@@ -69,6 +72,7 @@ public class MyRestController {
 		this.zonalOfficerService = theZonalOfficerService;
 		this.notificationRequestReliefService = theNotificationRequestReliefService;
 		this.userNotificationService = theUserNotificationService;
+		this.globalNotificationService = theGlobalNotificationService;
 		// mUser = new User();
 	}
 
@@ -897,15 +901,19 @@ public class MyRestController {
 			
 		    JSONObject body = new JSONObject();
 		    body.put("to", "/topics/" + officerContact);
+		  //  body.put("to", "/topics/9862689748");  //9862689748
+
 		    body.put("priority", "high");
 		 
 		    JSONObject notification = new JSONObject();
 		    notification.put("title", material);
 		    notification.put("body", username);
+		   // notification.put("title", "SDF");
+		   // notification.put("body", "sdf");
 		    
 		    JSONObject data = new JSONObject();
-//		    data.put("Key-1", "JSA Data 1");
-//		    data.put("Key-2", "JSA Data 2");
+		    data.put("Key-1", "JSA Data 1");
+		    data.put("Key-2", "JSA Data 2");
 		    
 		    data.put("serialNumber",serialNumber);
 		    data.put("details",details);
@@ -1057,6 +1065,76 @@ public class MyRestController {
 			System.out.println("Status: "+inc.getStatus());
 			return "change";
 		}
+		
+		 //*************************************************************************************
+		 
+		 //HANDLE THE GLOBAL NOTIFCATION
+		@PostMapping("/setGlobalNotification")
+		public String setGlobalNotify(@RequestBody GlobalNotification newGlobalNotification) {
+			//GLOBAL NOTIFCATION SIAM THAT SAVE NATUR
+			
+			globalNotificationService.save(newGlobalNotification);
+			System.out.println("A va safe em");
+			
+		return "";	
+		}
+		 //*************************************************************************************
+
+		 //HANDLE THE GLOBAL NOTIFCATION
+		@GetMapping("/getGlobalNotification")
+		public String getGlobalNotif() {
+
+			
+			List<GlobalNotification> theGlobalNotification = globalNotificationService.findAll();
+			return "";	
+			}
+		
+		
+		
+		
+		
+//		 @RequestMapping(value = "/globalNotification", method = RequestMethod.GET, produces = "application/json")	
+//		 public ResponseEntity<GlobalNotification> globalNotify() {		
+//			 String TOPIC = "TOPIC_GLOBAL";
+//			 JSONObject body = new JSONObject();
+//			    body.put("to", "/topics/" +TOPIC);
+//			    body.put("priority", "high");
+//			 
+//			    JSONObject notification = new JSONObject();
+//			    notification.put("title", "material");
+//			    notification.put("body", "uzer");
+//			    
+//			    body.put("notification", notification);
+//
+//			    HttpEntity<String> request = new HttpEntity<String>(body.toString());
+//				 
+//			    CompletableFuture<String> pushNotification = androidPushNotificationsService.send(request);
+//			    CompletableFuture.allOf(pushNotification).join();
+//			 
+//			    System.out.println("inside FCM");
+//			    try {
+//			      String firebaseResponse = pushNotification.get();
+//				  System.out.println("inside FCM try block");
+//
+//			      return new ResponseEntity<GlobalNotification>(HttpStatus.OK);
+//			    } catch (InterruptedException e) {
+//				    System.out.println("inside FCM catch");
+//
+//			      e.printStackTrace();
+//			    } catch (ExecutionException e) {
+//				    System.out.println("inside FCM catch");
+//
+//			      e.printStackTrace();
+//			    }
+//			 
+//			    return new ResponseEntity<GlobalNotification>(HttpStatus.BAD_REQUEST);
+	//		  }
+		 
+	
+		 
+		 
+		 
+		 
 }
 
 

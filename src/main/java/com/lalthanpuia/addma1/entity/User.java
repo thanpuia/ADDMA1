@@ -69,8 +69,8 @@ public class User {
 	@Column (name="password")
 	String password;
 	
-	@Column(name="authority")
-	String authority;
+	@Column(name="designation")
+	String designation;
 
 	public User() {
 	
@@ -79,7 +79,7 @@ public class User {
 	public User(String altContactName, String altContactNo, String createdAt, String district,
 			String email, String emergencyContactName, String emergencyContactNo, String lastLogin, String lat,
 			String lng, String locality, String username, String phoneNo, String userRole, String updateAt,
-			String volunteer, String password, String authority) {
+			String volunteer, String password, String designation) {
 	
 		this.altContactName = altContactName;
 		this.altContactNo = altContactNo;
@@ -98,7 +98,7 @@ public class User {
 		this.updateAt = updateAt;
 		this.volunteer = volunteer;
 		this.password = password;
-		this.authority = authority;
+		this.designation = designation;
 	}
 
 
@@ -253,14 +253,14 @@ public class User {
 
 
 
-	public String getAuthority() {
-		return authority;
+	public String getDesignation() {
+		return designation;
 	}
 
 
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 
 
